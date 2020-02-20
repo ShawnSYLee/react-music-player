@@ -39,9 +39,9 @@ function Header() {
 
   return (
     <div className="Header">
-      <Button pill theme="light">
+      <button className="btn-icon">
         <FiChevronLeft className="icon" />
-      </Button>
+      </button>
       <span className="txt-label">Player</span>
 
       <Dropdown open={open} toggle={toggle} className="dropdown-plus">
@@ -49,9 +49,10 @@ function Header() {
           <FiPlus className="icon" />
         </DropdownToggle>
         <DropdownMenu right>
-          <DropdownItem>Action</DropdownItem>
-          <DropdownItem>Another action</DropdownItem>
-          <DropdownItem>Something else here</DropdownItem>
+          <DropdownItem>Add to Playlist</DropdownItem>
+          <DropdownItem>Add to Queue</DropdownItem>
+          <DropdownItem>View Album</DropdownItem>
+          <DropdownItem>View Artist</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     </div>
@@ -118,15 +119,14 @@ function Controller() {
         ref={audioManager}
       />
       <div className="control-row">
-        <Button pill theme="light" className="btn-control"><FiSkipBack className="icon" /></Button>
-        <Button pill className="btn-control"
+        <button className="btn-control"><FiSkipBack className="icon" /></button>
+        <button className="btn-play"
           onClick={togglePlay}
         >
           <FiPlay className="largeicon" />
-        </Button>
-        <Button pill theme="light" className="btn-control"><FiSkipForward className="icon" /></Button>
+        </button>
+        <button className="btn-control"><FiSkipForward className="icon" /></button>
       </div>
-      {/* <Slider connect={[true, false]} start={[20]} range={{ min: 0, max: 100 }} /> */}
       <Slider
         onSlide={adjustProgress}
         start={[progress]}
