@@ -1,4 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
+import './App.css';
+import "bootstrap/dist/css/bootstrap.min.css";
+import "shards-ui/dist/css/shards.min.css";
 import {
   Button,
   Dropdown,
@@ -14,9 +17,7 @@ import {
   FiSkipBack,
   FiSkipForward
 } from "react-icons/fi";
-import './App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "shards-ui/dist/css/shards.min.css"
+import testaudio from './assets/SHY Martin - Good Together.mp3';
 
 function App() {
   return (
@@ -62,7 +63,7 @@ function MusicInfo() {
 
   return (
     <div className="MusicInfo">
-      <img src="https://m.media-amazon.com/images/I/91EADvEUjXL._SS500_.jpg" className="img-coverart" />
+      <img src="https://m.media-amazon.com/images/I/91EADvEUjXL._SS500_.jpg" className="img-coverart" alt="cover art" />
       <div className="txt-subtitle">{artist}</div>
       <div className="txt-title">{title}</div>
     </div>
@@ -71,11 +72,33 @@ function MusicInfo() {
 }
 
 function Controller() {
+  const audioManager = useRef();
+  const [play, setPlay] = useState(false);
+
+  function togglePlay() {
+    setPlay(!play)
+    if (play) {
+      audioManager.current.play();
+    } else {
+      audioManager.current.pause();
+    } 
+  }
+
   return (
     <div className="Controller">
+      <audio
+        src={testaudio}
+        autoPlay={play}
+        preload="auto"
+        ref={audioManager}
+      />
       <div className="control-row">
         <Button pill theme="light" className="btn-control"><FiSkipBack className="icon" /></Button>
-        <Button pill className="btn-control"><FiPlay className="largeicon" /></Button>
+        <Button pill className="btn-control"
+          onClick={togglePlay}
+        >
+          <FiPlay className="largeicon" />
+        </Button>
         <Button pill theme="light" className="btn-control"><FiSkipForward className="icon" /></Button>
       </div>
       <Slider connect={[true, false]} start={[20]} range={{ min: 0, max: 100 }} />
