@@ -1,38 +1,77 @@
+
 .App {
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+/* Text Styles */
+
+.txt-label {
+  padding: 10px;
+  font-size: 1.5rem;
+  font-weight: bold;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.txt-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.txt-subtitle {
+  margin-top: 30px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* Button/Icon Styles */
+
+.btn-control {
+  margin: 5px;
+}
+
+.icon {
+  font-size: 1.5rem;
+}
+
+.largeicon {
+  font-size: 3rem;
+}
+
+/* Header Styles */
+
+.Header {
+  width: 100%;
+  padding: 30px 30px 5px 30px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
+  justify-content: flex-start;
+}
+
+.dropdown-plus {
+  margin-left: auto;
+}
+
+/* MusicInfo Styles */
+
+.MusicInfo {
+  padding: 5px 20px;
+}
+
+.img-coverart {
+  width: 100%;
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+/* Controller Styles */
+
+.Controller {
+  padding: 0px 20px 20px;
+}
+
+.control-row {
+  display: flex;
+  flex-direction: row;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  align-items: center;
 }
