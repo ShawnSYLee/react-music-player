@@ -98,11 +98,15 @@ function Controller() {
 
   function updateProgress() {
     const { duration, currentTime } = audioManager.current;
-    console.log(currentTime);
-    console.log(duration);
-    console.log(currentTime / duration);
     setProgress((currentTime / duration) * 100);
-    console.log(progress);
+  }
+
+  function adjustProgress(e) {
+    console.log(parseFloat(e[0]));
+    const newTime = audioManager.current.duration * (parseFloat(e[0]) / 100);
+    console.log(newTime);
+    audioManager.current.currentTime = newTime;
+    setProgress(parseFloat(e[0]) / 100);
   }
 
   return (
@@ -123,7 +127,12 @@ function Controller() {
         <Button pill theme="light" className="btn-control"><FiSkipForward className="icon" /></Button>
       </div>
       {/* <Slider connect={[true, false]} start={[20]} range={{ min: 0, max: 100 }} /> */}
-      <Progress value={progress} />
+      <Slider
+        onSlide={adjustProgress}
+        start={[progress]}
+        connect={[true, false]}
+        range={{ min: 0, max: 100 }}
+      />
     </div>
   );
 }
