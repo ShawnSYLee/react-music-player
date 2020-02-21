@@ -8,23 +8,25 @@ import {
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-  Slider,
-  Progress
+  Slider
 } from "shards-react";
 import {
   FiChevronLeft,
   FiPlus,
   FiPlay,
   FiSkipBack,
-  FiSkipForward
+  FiSkipForward,
+  FiShuffle,
+  FiRepeat
 } from "react-icons/fi";
-import testaudio from './assets/SHY Martin - Good Together.mp3';
+import Playlist from "./Playlist.js";
+import testaudio from './assets/audio/SHY Martin - Good Together.mp3'
+import testaudio2 from './assets/audio/Ráptame - Reik.mp3'
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <MusicInfo />
       <Controller />
     </div>
   );
@@ -59,73 +61,94 @@ function Header() {
   );
 }
 
-function MusicInfo() {
-  let artist = "SHY Martin"
-  let title = "Good Together"
-
-  return (
-    <div className="MusicInfo">
-      <img src="https://m.media-amazon.com/images/I/91EADvEUjXL._SS500_.jpg" className="img-coverart" alt="cover art" />
-      <div className="txt-subtitle">{artist}</div>
-      <div className="txt-title">{title}</div>
-    </div>
-
-  );
-}
-
 function Controller() {
-  const audioManager = useRef();
+  const [index, setIndex] = useState(0);
+  const [audioSrc, setAudioSrc] = useState(Playlist[index].src);
+  const [audio] = useState(new Audio(audioSrc));
   const [play, setPlay] = useState(false);
   const [progress, setProgress] = useState(0.0);
+  const [activeSong, setActiveSong] = useState(0);
+
+  function nextSong() {
+    console.log("next song");
+    if (index < Playlist.length - 1) {
+      console.log(index);
+      setIndex(index + 1);
+      console.log(index);
+    } 
+  }
+
+  function prevSong() {
+    console.log("prev song");
+    if (progress > 10) {
+      audio.currentTime = 0;
+    } else if (index > 0) {
+      console.log(index);
+      setIndex(index - 1);
+      console.log(index);
+    } 
+  }
 
   useEffect(() => {
-    audioManager.current.addEventListener('timeupdate', updateProgress);
-  }, [])
-
-  useEffect(() => {
+    setActiveSong(Playlist[index]);
+    setAudioSrc(Playlist[index].src);
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('ended', () => setPlay(false));
     return () => {
-      audioManager.current.removeEventListener('timeupdate', updateProgress);
-    }
-  }, [])
+      audio.removeEventListener('timeupdate', updateProgress);
+      audio.removeEventListener('ended', () => setPlay(false));
+    };
+  }, [index])
+
+  useEffect(() => {
+    audio.src = audioSrc;
+    audio.currentTime = 0;
+    if (play) audio.play();
+  }, [audioSrc])
+
+  useEffect(() => {
+    play ? audio.play() : audio.pause();
+  }, [play])
 
   function togglePlay() {
-    setPlay(!play)
-    if (play) {
-      audioManager.current.play();
-    } else {
-      audioManager.current.pause();
-    }
+    setPlay(!play); 
   }
 
   function updateProgress() {
-    const { duration, currentTime } = audioManager.current;
-    setProgress((currentTime / duration) * 100);
+    const duration = audio.duration;
+    const currentTime = audio.currentTime;
+    setProgress((currentTime / duration) * 100 || 0);
   }
 
   function adjustProgress(e) {
-    console.log(parseFloat(e[0]));
-    const newTime = audioManager.current.duration * (parseFloat(e[0]) / 100);
-    console.log(newTime);
-    audioManager.current.currentTime = newTime;
+    const newTime = audio.duration * (parseFloat(e[0]) / 100);
+    audio.currentTime = newTime;
     setProgress(parseFloat(e[0]) / 100);
   }
 
   return (
     <div className="Controller">
-      <audio
-        src={testaudio}
-        autoPlay={play}
-        preload="auto"
-        ref={audioManager}
-      />
+      <div className="MusicInfo">
+        <img src={activeSong.cover} className="img-coverart" alt="cover art" />
+        <div className="txt-subtitle">{activeSong.artist}</div>
+        <div className="txt-title">{activeSong.title}</div>
+      </div>
       <div className="control-row">
-        <button className="btn-control"><FiSkipBack className="icon" /></button>
+        <button className="btn-icon"><FiShuffle className="icon" /></button>
+        <button 
+          className="btn-control"
+          onClick={prevSong}
+        ><FiSkipBack className="icon" /></button>
         <button className="btn-play"
           onClick={togglePlay}
         >
           <FiPlay className="largeicon" />
         </button>
-        <button className="btn-control"><FiSkipForward className="icon" /></button>
+        <button 
+          className="btn-control"
+          onClick={nextSong}
+        ><FiSkipForward className="icon" /></button>
+        <button className="btn-icon"><FiRepeat className="icon" /></button>
       </div>
       <Slider
         onSlide={adjustProgress}

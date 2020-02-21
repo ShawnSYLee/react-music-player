@@ -37,8 +37,8 @@
 
 .btn-play {
   background-color: rgb(251, 210, 204);
-  width: 4rem;
-  height: 4rem;
+  width: 4.5rem;
+  height: 4.5rem;
   border: none;
   border-radius: 100%;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -52,7 +52,7 @@
 
 .icon {
   font-size: 1.5rem;
-  color: rgb(202,202,202);
+  color: rgb(116, 116, 116);
 }
 
 .largeicon {
