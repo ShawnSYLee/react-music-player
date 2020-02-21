@@ -12,7 +12,8 @@ const MusicProvider = (props) => {
     play: false,
     progress: 0.0,
     activeSong: Playlist[0],
-    starttime: '0:00'
+    starttime: '0:00',
+    color: "#ffffff"
   });
 
   return (

@@ -70,6 +70,7 @@ const useAudio = () => {
         setState(state => ({ ...state, progress: parseFloat(e[0]) / 100 }));
     }
 
+    // format time to m:ss
     function formatTime(time) {
         if (isNaN(time) || time === 0) {
             return '0:00';
