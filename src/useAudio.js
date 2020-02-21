@@ -84,6 +84,7 @@ const useAudio = () => {
         prevSong,
         togglePlay,
         adjustProgress,
+        formatTime,
         progress: state.progress,
         activeSong: state.activeSong,
         starttime: state.starttime,

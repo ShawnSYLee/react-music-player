@@ -21,35 +21,6 @@ import {
 } from "react-icons/fi";
 import useAudio from "./useAudio"
 
-const Header = () => {
-  const [open, setOpen] = useState(false)
-
-  function toggle() {
-    setOpen(!open);
-  }
-
-  return (
-    <div className="Header">
-      <button className="btn-icon">
-        <FiChevronLeft className="icon" />
-      </button>
-      <span className="txt-label">Player</span>
-
-      <Dropdown open={open} toggle={toggle} className="dropdown-plus">
-        <DropdownToggle pill theme="light">
-          <FiPlus className="icon" />
-        </DropdownToggle>
-        <DropdownMenu right>
-          <DropdownItem>Add to Playlist</DropdownItem>
-          <DropdownItem>Add to Queue</DropdownItem>
-          <DropdownItem>View Album</DropdownItem>
-          <DropdownItem>View Artist</DropdownItem>
-        </DropdownMenu>
-      </Dropdown>
-    </div>
-  );
-}
-
 const MusicPlayer = () => {
   const {
     nextSong,
@@ -60,27 +31,40 @@ const MusicPlayer = () => {
     activeSong,
     starttime,
     play,
-    audio
+    audio,
+    formatTime
   } = useAudio();
+  const [open, setOpen] = useState(false)
 
-  function formatTime(time) {
-    if (isNaN(time) || time === 0) {
-      return '0:00';
-    }
-    const mins = Math.floor(time / 60);
-    const secs = (time % 60).toFixed();
-    return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
+  function toggle() {
+    setOpen(!open);
   }
 
   return (
     <>
-      <Header />
+      <div className="Header">
+        <button className="btn-icon">
+          <FiChevronLeft className="icon" />
+        </button>
+        <span className="txt-label">Player</span>
+        <Dropdown open={open} toggle={toggle} className="dropdown-plus">
+          <DropdownToggle pill theme="light">
+            <FiPlus className="icon" />
+          </DropdownToggle>
+          <DropdownMenu right>
+            <DropdownItem>Add to Playlist</DropdownItem>
+            <DropdownItem>Add to Queue</DropdownItem>
+            <DropdownItem>View Album</DropdownItem>
+            <DropdownItem>View Artist</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      </div>
+      <div className="AlbumContainer">
+        <img src={activeSong.cover} className="img-coverart" alt="cover art" />
+      </div>
       <div className="Controller">
-        <div className="MusicInfo">
-          <img src={activeSong.cover} className="img-coverart" alt="cover art" />
-          <div className="txt-subtitle">{activeSong.artist}</div>
-          <div className="txt-title">{activeSong.title}</div>
-        </div>
+        <div className="txt-subtitle">{activeSong.artist}</div>
+        <div className="txt-title">{activeSong.title}</div>
         <div className="control-row">
           <button className="btn-icon"><FiShuffle className="icon" /></button>
           <button
