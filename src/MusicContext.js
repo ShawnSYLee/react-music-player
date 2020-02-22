@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Sound from 'react-sound';
 import { tracks, info } from "./Playlist";
 
 const MusicContext = React.createContext([{}, () => { }]);

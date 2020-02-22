@@ -1,4 +1,9 @@
 
+button:focus {
+  outline: none !important;
+  outline-offset: none !important;
+}
+
 .App {
   text-align: center;
 }
@@ -175,10 +180,12 @@
   flex-direction: row;
   justify-content: center;
   height: 9.5rem;
+  background-image: linear-gradient( rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7), white);
 }
 
 .miniplayer {
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  background-color: white;
   border-radius: 15px;
   width: 100%;
   display: flex;
@@ -239,15 +246,32 @@
 
 /* ListMenu Styles */
 
+.playlisttop-wrapper {
+  height: 26vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
 .playlistinfo-container {
   display: flex;
   flex-direction: row;
   padding: 0px 30px;
 }
 
+.playlist-search-container {
+  padding: 20px 30px 15px 30px;
+  height: 4rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
 .playlist-cover {
-  width: 30vw;
-  height: 30vw;
+  width: Calc(26vh - 4rem);
+  height: Calc(26vh - 4rem);;
+  /* max-height: 200px;
+  max-width: 200px; */
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 
@@ -269,6 +293,19 @@
   text-align: left;
 }
 
+.search-bar {
+  background-color: rgb(240, 240, 240);
+  border-radius: 15px;
+  font-weight: 500;
+  font-size: 0.7rem;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 5px 15px;
+}
+
 /* Track Styles */
 
 .track-container {
@@ -288,4 +325,12 @@
   text-align: left;
   font-weight: 500;
   font-size: 0.8rem;
+}
+
+.track-list {
+  width: 100%;
+  height: Calc(74vh - 6rem);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
 }

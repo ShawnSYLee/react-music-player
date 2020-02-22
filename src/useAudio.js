@@ -8,9 +8,11 @@ const useAudio = () => {
     function nextSong() {
         console.log("next song");
         if (state.index < state.tracks.length - 1) {
-            setState(state => ({ ...state, play: true, index: state.index + 1 }));
+            setState(state => ({ ...state, play: true }));
+            changeTrack(state.index + 1);
         } else {
-            setState(state => ({ ...state, play: false, index: 0 }));
+            setState(state => ({ ...state, play: false }));
+            changeTrack(0);
         }
     }
 
@@ -20,7 +22,7 @@ const useAudio = () => {
         if (state.progress > 10 || state.index === 0) {
             state.audio.currentTime = 0;
         } else if (state.index > 0) {
-            setState(state => ({ ...state, index: state.index - 1 }));
+            changeTrack(state.index - 1);
         }
         setState(state => ({ ...state, play: true }));
     }
@@ -28,8 +30,6 @@ const useAudio = () => {
     // when index is updated, change the active song and 
     // attach new event listeners
     useEffect(() => {
-        setState(state => ({ ...state, activeSong: state.tracks[state.index] }));
-        setState(state => ({ ...state, audioSrc: state.tracks[state.index].src }));
         state.audio.addEventListener('timeupdate', updateProgress);
         state.audio.addEventListener('ended', nextSong);
         return () => {
@@ -39,11 +39,12 @@ const useAudio = () => {
     }, [state.index])
 
     // when audioSrc is updated, update the audio src and play
-    useEffect(() => {
-        state.audio.src = state.audioSrc;
+    function changeTrack(i) {
+        setState(state => ({ ...state, index: i, activeSong: state.tracks[i], audioSrc: state.tracks[i].src, play: true }));
+        state.audio.src = state.tracks[i].src;
         state.audio.currentTime = 0;
-        if (state.play) state.audio.play();
-    }, [state.audioSrc])
+        state.audio.play();
+    }
 
     // when play is updated, play/pause music accordingly
     useEffect(() => {
@@ -59,8 +60,7 @@ const useAudio = () => {
     function updateProgress() {
         const duration = state.audio.duration;
         const currentTime = state.audio.currentTime;
-        setState(state => ({ ...state, progress: (currentTime / duration) * 100 || 0 }));
-        setState(state => ({ ...state, starttime: formatTime(currentTime) }));
+        setState(state => ({ ...state, progress: (currentTime / duration) * 100 || 0, starttime: formatTime(currentTime)  }));
     }
 
     // handle progress slider input
@@ -84,6 +84,7 @@ const useAudio = () => {
         nextSong,
         prevSong,
         togglePlay,
+        changeTrack,
         adjustProgress,
         formatTime,
         progress: state.progress,

@@ -2,29 +2,23 @@ import React from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
-import { Slider, Progress } from "shards-react";
+
+import { FormInput } from "shards-react";
 import { FiChevronLeft, FiMessageSquare } from "react-icons/fi";
+import { usePalette } from 'react-palette';
+import { Link } from 'react-router-dom';
+
 import Miniplayer from './Miniplayer';
 import useAudio from "./useAudio";
-import { usePalette } from 'react-palette';
 
 const ListMenu = () => {
     const {
-        nextSong,
-        prevSong,
-        togglePlay,
-        adjustProgress,
-        progress,
+        changeTrack,
         activeSong,
-        starttime,
-        play,
-        audio,
-        formatTime,
         playlist,
         tracks
     } = useAudio();
-    const { data, loading, error } = usePalette(activeSong.cover);
-    console.log(tracks);
+    // const { data, loading, error } = usePalette(activeSong.cover);
 
     return (
         <>
@@ -34,26 +28,38 @@ const ListMenu = () => {
                 </button>
                 <span className="txt-label">Music</span>
             </div>
-            <div className="playlistinfo-container">
-                <img src="/assets/images/Flow.jpg" className="playlist-cover" />
-                <div className="playlist-info" >
-                    <div className="txt-playlistinfo">By {playlist.author}</div>
-                    <div className="txt-playlisttitle">{playlist.name}</div>
-                    <div className="txt-playlistinfo">{tracks.length} Songs</div>
+            <div className="playlisttop-wrapper">
+                <div className="playlistinfo-container">
+                    <img src="/assets/images/Flow.jpg" className="playlist-cover" />
+                    <div className="playlist-info" >
+                        <div className="txt-playlistinfo">By {playlist.author}</div>
+                        <div className="txt-playlisttitle">{playlist.name}</div>
+                        <div className="txt-playlistinfo">{tracks.length} Songs</div>
+                    </div>
+                </div>
+                <div className="playlist-search-container" >
+                    <div className="search-bar">Search</div>
                 </div>
             </div>
-            {tracks.map((track, i) =>
-                <Track key={i} track={track} />
-            )}
+            <div className="track-list">
+                {tracks.map((track, i) =>
+                    <Track key={track.title} i={i} track={track} func={changeTrack} />
+                )}
+                {tracks.map((track, i) =>
+                    <Track key={track.title} i={i} track={track} func={changeTrack} />
+                )}
+            </div>
             <Miniplayer />
         </>
     );
 }
 
-const Track = ({ track }) => {
+const Track = ({ i, track, func }) => {
     return (
         <div>
-            <button className="track-container">
+            <button className="track-container"
+                onClick={() => func(i)}
+            >
                 <div className="txt-tracktitle">{track.title}</div>
                 <div className="txt-trackinfo">{track.artist} | {track.album}</div>
             </button>

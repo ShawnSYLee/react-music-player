@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
+
 import {
   Dropdown,
   DropdownToggle,
@@ -19,9 +20,10 @@ import {
   FiShuffle,
   FiRepeat
 } from "react-icons/fi";
-import useAudio from "./useAudio";
 import { usePalette } from 'react-palette';
 import { Link } from 'react-router-dom';
+
+import useAudio from "./useAudio";
 
 const MusicPlayer = () => {
   const {
