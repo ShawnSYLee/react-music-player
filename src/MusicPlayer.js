@@ -21,6 +21,7 @@ import {
 } from "react-icons/fi";
 import useAudio from "./useAudio";
 import { usePalette } from 'react-palette';
+import { Link } from 'react-router-dom';
 
 const MusicPlayer = () => {
   const {
@@ -45,9 +46,11 @@ const MusicPlayer = () => {
   return (
     <>
       <div className="Header">
-        <button className="btn-icon">
-          <FiChevronLeft className="icon" />
-        </button>
+        <Link to="/">
+          <button className="btn-icon">
+            <FiChevronLeft className="icon" />
+          </button>
+        </Link>
         <span className="txt-label">Player</span>
         <Dropdown open={open} toggle={toggle} className="dropdown-plus">
           <DropdownToggle pill theme="light">
@@ -61,10 +64,18 @@ const MusicPlayer = () => {
           </DropdownMenu>
         </Dropdown>
       </div>
+      {/* <div className="droptest">
+        <div className="drop-button-container">
+          <button className="drop-button">Add to Playlist</button>
+          <button className="drop-button">Add to Queue</button>
+          <button className="drop-button">View Album</button>
+          <button className="drop-button">View Artist</button>
+        </div>
+      </div> */}
       <div className="AlbumContainer">
         <img src={activeSong.cover} className="img-coverart" alt="cover art" />
       </div>
-      <div style={{ backgroundImage: 'radial-gradient(at 50% bottom ,' + data.lightMuted + ', rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))' }} className="Controller">
+      <div style={{ backgroundImage: 'radial-gradient(circle at 50% bottom ,' + data.lightMuted + ', rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))' }} className="Controller">
         <div className="txt-subtitle">{activeSong.artist}</div>
         <div className="txt-title">{activeSong.title}</div>
         <div className="control-row">

@@ -2,17 +2,19 @@ import React from 'react';
 import './App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
-import MusicPlayer from "./MusicPlayer";
+import Main from "./Main";
 import { MusicProvider } from "./MusicContext";
+import { BrowserRouter } from 'react-router-dom'
 
 function App() {
   return (
-    <MusicProvider>
-      <div className="App">
-        <MusicPlayer />
-      </div>
-    </MusicProvider>
-
+    <div className="App">
+      <MusicProvider>
+        <BrowserRouter>
+          <Main />
+        </BrowserRouter>
+      </MusicProvider>
+    </div>
   );
 }
 

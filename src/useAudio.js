@@ -90,7 +90,9 @@ const useAudio = () => {
         activeSong: state.activeSong,
         starttime: state.starttime,
         play: state.play,
-        audio: state.audio
+        audio: state.audio,
+        playlist: state.playlist,
+        tracks: state.tracks
     }
 };
 

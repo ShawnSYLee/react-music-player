@@ -1,19 +1,20 @@
 import React, { useState } from 'react';
-import Playlist from "./Playlist";
+import { tracks, info } from "./Playlist";
 
-const MusicContext = React.createContext([{}, ()=> {}]);
+const MusicContext = React.createContext([{}, () => { }]);
 
 const MusicProvider = (props) => {
   const [state, setState] = useState({
-    tracks: Playlist,
+    tracks: tracks,
     index: 0,
-    audioSrc: Playlist[0].src,
-    audio: new Audio(Playlist[0]),
+    audioSrc: tracks[0].src,
+    audio: new Audio(tracks[0]),
     play: false,
     progress: 0.0,
-    activeSong: Playlist[0],
+    activeSong: tracks[0],
     starttime: '0:00',
-    color: "#ffffff"
+    color: "#ffffff",
+    playlist: info
   });
 
   return (
