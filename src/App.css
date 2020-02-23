@@ -91,12 +91,13 @@ button:focus {
 /* MusicInfo Styles */
 
 .AlbumContainer {
-  height: Calc(100vh - 25rem);
+  height: Calc(100vh - 22.5rem);
   padding: 15px 18px;
   position: relative;
 }
 
 .img-coverart {
+  z-index: 1000;
   max-width: 90%;
   max-height: 100%;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -110,7 +111,7 @@ button:focus {
 /* MusicPlayer Styles */
 
 .Controller {
-  height: 19rem;
+  height: 16.5rem;
   padding: 0px 20px 20px;
   position: absolute;
   width: 100%;
@@ -124,16 +125,7 @@ button:focus {
   align-items: center;
 }
 
-.time-row {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: flex-start;
-}
 
-.right-time {
-  margin-left: auto;
-}
 
 .droptest {
   position: absolute;
@@ -181,6 +173,7 @@ button:focus {
   justify-content: center;
   height: 9.5rem;
   background-image: linear-gradient( rgba(255, 255, 255, 0), rgba(255, 255, 255, 0.7), white);
+  overflow: hidden;
 }
 
 .miniplayer {
@@ -190,28 +183,33 @@ button:focus {
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-}
-
-.art-container {
-  position: relative;
+  justify-content: flex-end;
+  height: Calc(45px + 1.8rem);
 }
 
 .img-minicoverart {
   height: 100%;
-  border-radius: 15px 0px 0px 15px;
+  
 }
 
 .miniplaybutton {
-  position: absolute;
-  width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0);
+  width: Calc(45px + 1.8rem);
+  border-radius: 15px 0px 0px 15px;
   border: none;
 }
 
 .wrapper-stack {
   width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  overflow: hidden;
+}
+
+.container-row {
+  display: flex;
+  flex-direction: row;
 }
 
 .container-stack {
@@ -225,9 +223,9 @@ button:focus {
 
 .txt-minititle {
   padding-left: 10px;
-  font-size: 1rem;
+  font-size: 1.2rem;
   font-weight: bold;
-  margin-bottom: 10px;
+  margin-bottom: 0px;
 }
 
 .txt-minisubtitle {
@@ -315,6 +313,14 @@ button:focus {
   border: none;
 }
 
+.curtrack-container {
+  padding: 10px 40px;
+  width: 100%;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  color: red;
+}
+
 .txt-tracktitle {
   text-align: left;
   font-size: 1.2rem;
@@ -333,4 +339,76 @@ button:focus {
   display: flex;
   flex-direction: column;
   overflow-y: auto;
+}
+
+/* ProgressBar Styles */
+
+.progressbar-container {
+  height: 15px;
+  width: 100%;
+  background-color: white;
+  border-bottom-right-radius: 15px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.progressbar-bar {
+  background-color: rgb(200, 200, 200);
+  height: 20%;
+}
+
+/* ProgressSlider Styles */
+
+.progressslider-wrapper {
+  padding: 20px 20px;
+}
+
+.progressslider-container {
+  width: 100%;
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  height: 30px;
+  background-color: rgb(224, 224, 224);
+  border-radius: 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressslider-bar {
+  transition: background-color 0.1s ease;
+  height: 40px;
+  /* inline: backgroundImage: 'linear-gradient(to right, ' + color + ', ' + accent + ')' */
+}
+
+.progressslider {
+  appearance: none;
+  background: none;
+  height: 0px;
+}
+
+.progressslider::-webkit-slider-thumb {
+  appearance: none;
+  width: 10px;
+  height: 80px;
+  background-color: rgba(0,0,0,0);
+}
+
+.time-row {
+  position: absolute;
+  width: 100%;
+  pointer-events: none;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0px 13px;
+  font-weight: 500;
+}
+
+.right-time {
+  margin-left: auto;
 }

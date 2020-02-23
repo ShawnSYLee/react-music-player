@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './App.css';
+import '../App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
 
@@ -23,7 +23,8 @@ import {
 import { usePalette } from 'react-palette';
 import { Link } from 'react-router-dom';
 
-import useAudio from "./useAudio";
+import ProgressSlider from "../Components/ProgressSlider"
+import useAudio from "../Hooks/useAudio";
 
 const MusicPlayer = () => {
   const {
@@ -77,7 +78,7 @@ const MusicPlayer = () => {
       <div className="AlbumContainer">
         <img src={activeSong.cover} className="img-coverart" alt="cover art" />
       </div>
-      <div style={{ backgroundImage: 'radial-gradient(circle at 50% bottom ,' + data.lightMuted + ', rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))' }} className="Controller">
+      <div style={{ backgroundImage: 'radial-gradient(at 50% bottom ,' + data.lightMuted + ', rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))' }} className="Controller">
         <div className="txt-subtitle">{activeSong.artist}</div>
         <div className="txt-title">{activeSong.title}</div>
         <div className="control-row">
@@ -99,16 +100,11 @@ const MusicPlayer = () => {
           ><FiSkipForward className="icon" /></button>
           <button className="btn-icon"><FiRepeat className="icon" /></button>
         </div>
-        <Slider
-          onSlide={adjustProgress}
-          start={[progress]}
-          connect={[true, false]}
-          range={{ min: 0, max: 100 }}
+        <ProgressSlider 
+          value={progress}
+          color={data.lightMuted}
+          accent={data.lightVibrant}
         />
-        <div className="time-row">
-          <div className="left-time">{starttime}</div>
-          <div className="right-time">{formatTime(audio.duration)}</div>
-        </div>
       </div>
     </>
   );

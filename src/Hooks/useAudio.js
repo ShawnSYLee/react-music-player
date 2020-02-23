@@ -1,5 +1,5 @@
 import { useContext, useEffect } from 'react';
-import { MusicContext } from './MusicContext';
+import { MusicContext } from '../MusicContext';
 
 const useAudio = () => {
     const [state, setState] = useContext(MusicContext);
@@ -60,14 +60,14 @@ const useAudio = () => {
     function updateProgress() {
         const duration = state.audio.duration;
         const currentTime = state.audio.currentTime;
-        setState(state => ({ ...state, progress: (currentTime / duration) * 100 || 0, starttime: formatTime(currentTime)  }));
+        setState(state => ({ ...state, progress: (currentTime / duration) * 100 || 0, starttime: formatTime(currentTime) }));
     }
 
     // handle progress slider input
-    function adjustProgress(e) {
-        const newTime = state.audio.duration * (parseFloat(e[0]) / 100);
+    function adjustProgress(newProgress) {
+        const newTime = state.audio.duration * (newProgress / 100);
         state.audio.currentTime = newTime;
-        setState(state => ({ ...state, progress: parseFloat(e[0]) / 100 }));
+        setState(state => ({ ...state, progress: newProgress / 100 }));
     }
 
     // format time to m:ss

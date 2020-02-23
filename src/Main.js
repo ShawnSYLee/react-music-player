@@ -1,7 +1,7 @@
 import React from 'react';
 import { Switch, Route } from 'react-router-dom';
-import MusicPlayer from './MusicPlayer';
-import ListMenu from './ListMenu';
+import MusicPlayer from './Views/MusicPlayer';
+import ListMenu from './Views/ListMenu';
 
 const Main = () => {
     return (
