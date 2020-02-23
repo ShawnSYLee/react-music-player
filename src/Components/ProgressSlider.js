@@ -1,12 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import '../App.css';
 import useAudio from "../Hooks/useAudio";
 
-const ProgressBar = ({ value, color, accent }) => {
+const ProgressSlider = ({ color, accent }) => {
     const {
         starttime,
         audio,
-        activeSong,
         progress,
         adjustProgress,
         formatTime
@@ -17,7 +16,7 @@ const ProgressBar = ({ value, color, accent }) => {
     function scrub(e) {
         if (!scrubbing) setScrubbing(true);
         setScrubProgress(e.target.value);
-        if (e.type != "change") {
+        if (e.type !== "change") {
             setScrubbing(false);
             adjustProgress(scrubProgress);
         }
@@ -26,11 +25,11 @@ const ProgressBar = ({ value, color, accent }) => {
     return (
         <div className="progressslider-wrapper">
             <div className="progressslider-container">
-                <div className="progressslider-bar" style={{ width: scrubbing ? scrubProgress + '%' : progress + '%',  backgroundColor: scrubbing ? accent : 'white' }}>
+                <div className="progressslider-bar" style={{ width: scrubbing ? scrubProgress + '%' : progress + '%',  backgroundColor: scrubbing ? accent : 'white', backgroundImage: scrubbing ? 'linear-gradient(to right, ' + color + ', ' + accent + ')' : 'none' }}>
                 </div>
                 <input type="range" className="progressslider" step="0.01" onChange={scrub} onTouchEnd={scrub} />
                 <div className="time-row">
-                    <div className="left-time">{scrubbing ? formatTime(scrubProgress / 100 * audio.duration) : starttime}</div>
+                    <div className="left-time" style={{ color: scrubbing ? 'white' : '' }}>{scrubbing ? formatTime(scrubProgress / 100 * audio.duration) : starttime}</div>
                     <div className="right-time">{formatTime(audio.duration)}</div>
                 </div>
             </div>
@@ -38,4 +37,4 @@ const ProgressBar = ({ value, color, accent }) => {
     );
 }
 
-export default ProgressBar;
+export default ProgressSlider;

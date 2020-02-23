@@ -9,6 +9,7 @@ const Main = () => {
             <Route exact path='/' component={ListMenu} />
             <Route exact path='/player' component={MusicPlayer} />
         </Switch>
+
     );
 }
 

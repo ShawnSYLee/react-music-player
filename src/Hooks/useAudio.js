@@ -56,6 +56,16 @@ const useAudio = () => {
         setState(state => ({ ...state, play: !state.play }));
     }
 
+    function setPlayMode(mode) {
+        if (state.mode === mode) {
+            console.log('play mode: normal');
+            setState(state => ({ ...state, mode: 'normal'}));
+        } else {
+            console.log('play mode: ' + mode);
+            setState(state => ({ ...state, mode: mode}));
+        }
+    }
+
     // update progress in accordance to audio's currentTime
     function updateProgress() {
         const duration = state.audio.duration;
@@ -86,6 +96,7 @@ const useAudio = () => {
         togglePlay,
         changeTrack,
         adjustProgress,
+        setPlayMode,
         formatTime,
         progress: state.progress,
         activeSong: state.activeSong,
@@ -93,7 +104,9 @@ const useAudio = () => {
         play: state.play,
         audio: state.audio,
         playlist: state.playlist,
-        tracks: state.tracks
+        tracks: state.tracks,
+        index: state.index,
+        mode: state.mode
     }
 };
 

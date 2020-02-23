@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import '../App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
+import PlayIcon from '../assets/icons/play.svg';
+import SkipForwardIcon from '../assets/icons/skipforward.svg';
+import SkipBackwardIcon from '../assets/icons/skipbackward.svg';
+import ShuffleIcon from '../assets/icons/shuffle.svg';
+import RepeatIcon from '../assets/icons/repeat.svg';
+import BackIcon from '../assets/icons/back.svg';
+import PlusIcon from '../assets/icons/plus.svg';
+import PauseIcon from '../assets/icons/pause.svg';
 
-import {
-  Dropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem,
-  Slider
-} from "shards-react";
 import {
   FiChevronLeft,
   FiPlus,
@@ -31,15 +32,13 @@ const MusicPlayer = () => {
     nextSong,
     prevSong,
     togglePlay,
-    adjustProgress,
     progress,
     activeSong,
-    starttime,
+    setPlayMode,
     play,
-    audio,
-    formatTime
+    mode
   } = useAudio();
-  const { data, loading, error } = usePalette(activeSong.cover)
+  const { data } = usePalette(activeSong.cover)
   const [open, setOpen] = useState(false)
 
   function toggle() {
@@ -50,59 +49,51 @@ const MusicPlayer = () => {
     <>
       <div className="Header">
         <Link to="/">
-          <button className="btn-icon">
-            <FiChevronLeft className="icon" />
+          <button className="btn-topicon">
+            <img src={BackIcon} className="icon" />
           </button>
         </Link>
         <span className="txt-label">Player</span>
-        <Dropdown open={open} toggle={toggle} className="dropdown-plus">
-          <DropdownToggle pill theme="light">
-            <FiPlus className="icon" />
-          </DropdownToggle>
-          <DropdownMenu right>
-            <DropdownItem>Add to Playlist</DropdownItem>
-            <DropdownItem>Add to Queue</DropdownItem>
-            <DropdownItem>View Album</DropdownItem>
-            <DropdownItem>View Artist</DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <button className="btn-righticon" onClick={toggle}>
+          <img src={PlusIcon} className="icon" style={{ transform: open ? 'rotate(135deg)' : 'none' }} />
+        </button>
       </div>
-      {/* <div className="droptest">
+      <div className="droptest" style={{ display: open ? 'block' : 'none', animationDirection: open ? 'normal' : 'reverse' }}>
         <div className="drop-button-container">
           <button className="drop-button">Add to Playlist</button>
           <button className="drop-button">Add to Queue</button>
           <button className="drop-button">View Album</button>
           <button className="drop-button">View Artist</button>
         </div>
-      </div> */}
+      </div>
       <div className="AlbumContainer">
         <img src={activeSong.cover} className="img-coverart" alt="cover art" />
       </div>
       <div style={{ backgroundImage: 'radial-gradient(at 50% bottom ,' + data.lightMuted + ', rgba(255, 255, 255, 1), rgba(255, 255, 255, 0))' }} className="Controller">
-        <div className="txt-subtitle">{activeSong.artist}</div>
+        <div className="txt-subtitle">{activeSong.artist.join(', ')}</div>
         <div className="txt-title">{activeSong.title}</div>
         <div className="control-row">
-          <button className="btn-icon"><FiShuffle className="icon" /></button>
+          <button className="btn-icon" style={{ color: mode === "shuffle" ? data.lightVibrant : '' }} onClick={() => setPlayMode('shuffle')}><img src={ShuffleIcon} className="icon"  /></button>
           <button
             className="btn-control"
             onClick={prevSong}
-          ><FiSkipBack className="icon" /></button>
+          ><img src={SkipBackwardIcon} className="icon" /></button>
           <button className="btn-play"
             style={{ backgroundColor: data.lightVibrant }}
             onClick={togglePlay}
           >
-            {play === false && <FiPlay className="playicon" />}
-            {play === true && <FiPause className="largeicon" />}
+            {play === false && <img src={PlayIcon} className="playicon" />}
+            {play === true && <img src={PauseIcon} className="largeicon" />}
           </button>
           <button
             className="btn-control"
             onClick={nextSong}
-          ><FiSkipForward className="icon" /></button>
-          <button className="btn-icon"><FiRepeat className="icon" /></button>
+          ><img src={SkipForwardIcon} className="icon" /></button>
+          <button className="btn-icon"><img src={RepeatIcon} className="icon" /></button>
         </div>
-        <ProgressSlider 
+        <ProgressSlider
           value={progress}
-          color={data.lightMuted}
+          color={data.muted}
           accent={data.lightVibrant}
         />
       </div>

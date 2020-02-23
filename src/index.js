@@ -3,6 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import './fonts/Futura_PT_Light.ttf';
+import './fonts/Futura_PT_Book.ttf';
+import './fonts/Futura_PT_Medium.ttf';
+import './fonts/Futura_PT_Heavy.ttf';
+import './fonts/Futura_PT_ExtraBold.ttf';
 
 ReactDOM.render((
   <App />
