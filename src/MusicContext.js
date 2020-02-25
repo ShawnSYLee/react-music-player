@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import { tracks, info } from "./data/Playlist";
+import { tracks, info, playlists } from "./data/Playlist";
 
 const MusicContext = React.createContext([{}, () => { }]);
 
 const MusicProvider = (props) => {
   const [state, setState] = useState({
-    tracks: tracks,
+    playlists: playlists,
+    tracks: playlists["liked-songs"].tracks,
     index: -1,
-    audioSrc: tracks[0].src,
-    audio: new Audio(tracks[0]),
+    audioSrc: playlists["liked-songs"].tracks[0].src,
+    audio: new Audio(playlists["liked-songs"].tracks[0]),
     play: false,
     progress: 0.0,
     activeSong: {
+      id: 'placeholder',
       src: '',
       cover: '',
       title: 'Title',
@@ -20,8 +22,10 @@ const MusicProvider = (props) => {
     },
     starttime: '0:00',
     color: "#ffffff",
-    playlist: info,
-    mode: 'normal'
+    playlist: playlists["liked-songs"],
+    playlistInfo: playlists["liked-songs"].info,
+    shuffle: false,
+    repeat: 'none'
   });
 
   return (

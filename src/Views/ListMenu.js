@@ -1,11 +1,11 @@
 import React from 'react';
 import '../App.css';
-import "bootstrap/dist/css/bootstrap.min.css";
-import "shards-ui/dist/css/shards.min.css";
+
 import BackIcon from '../assets/icons/back.svg';
 
 import { FiChevronLeft } from "react-icons/fi";
 import { usePalette } from 'react-palette';
+import { Link } from 'react-router-dom';
 
 import FilterResults from 'react-filter-search';
 import Miniplayer from '../Components/Miniplayer';
@@ -16,25 +16,28 @@ const ListMenu = () => {
         changeTrack,
         activeSong,
         playlist,
+        playlistInfo,
         tracks,
         index
     } = useAudio();
-    const { data } = usePalette(playlist.cover);
+    const { data } = usePalette(playlistInfo.cover);
 
     return (
         <>
             <div className="Header">
+            <Link to="/">
                 <button className="btn-topicon">
                     <img src={BackIcon} className="icon" />
                 </button>
+            </Link>
                 <span className="txt-label">Playlist</span>
             </div>
             <div className="playlisttop-wrapper">
                 <div className="playlistinfo-container">
-                    <img src={playlist.cover} alt="Playlist Cover" className="playlist-cover" />
+                    <img src={playlistInfo.cover} alt="Playlist Cover" className="playlist-cover" />
                     <div className="playlist-info" >
-                        <div className="txt-playlistinfo">By {playlist.author}</div>
-                        <div className="txt-playlisttitle">{playlist.name}</div>
+                        <div className="txt-playlistinfo">By {playlistInfo.author}</div>
+                        <div className="txt-playlisttitle">{playlistInfo.name}</div>
                         <div className="txt-playlistinfo">{tracks.length} Songs</div>
                     </div>
                 </div>
@@ -44,7 +47,7 @@ const ListMenu = () => {
             </div>
             <div className="track-list">
                 {tracks.map((track, i) =>
-                    <Track key={track.title} i={i} track={track} curtrack={activeSong} data={data} func={changeTrack} />
+                    <Track key={track.id} i={i} track={track} curtrack={activeSong} data={data} func={changeTrack} />
                 )}
                 <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} >
                 </div>

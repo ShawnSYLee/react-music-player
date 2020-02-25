@@ -1,18 +1,27 @@
 import { useContext, useEffect } from 'react';
 import { MusicContext } from '../MusicContext';
+import { playlists } from '../data/Playlist';
 
 const useAudio = () => {
     const [state, setState] = useContext(MusicContext);
 
     // handle skip forward button
     function nextSong() {
-        console.log("next song");
-        if (state.index < state.tracks.length - 1) {
-            setState(state => ({ ...state, play: true }));
+        console.log(state.repeat);
+        if (state.repeat === 'repeatsong') {
+            console.log("repeat song");
+            changeTrack(state.index);
+        } else if (state.index < state.tracks.length - 1) {
+            console.log("next song");
             changeTrack(state.index + 1);
-        } else {
-            setState(state => ({ ...state, play: false }));
+        } else if (state.repeat === 'repeat') {
+            console.log("play first song");
             changeTrack(0);
+        } else {
+            console.log("stop playing");
+            setState(state => ({ ...state, index: 0, activeSong: state.tracks[0], audioSrc: state.tracks[0].src, play: false }));
+            state.audio.src = state.tracks[0].src;
+            state.audio.currentTime = 0;
         }
     }
 
@@ -56,14 +65,19 @@ const useAudio = () => {
         setState(state => ({ ...state, play: !state.play }));
     }
 
-    function setPlayMode(mode) {
-        if (state.mode === mode) {
-            console.log('play mode: normal');
-            setState(state => ({ ...state, mode: 'normal'}));
+    function toggleShuffle() {
+        if (state.shuffle) {
+            console.log('shuffle OFF');
+            setState(state => ({ ...state, shuffle: false }));
         } else {
-            console.log('play mode: ' + mode);
-            setState(state => ({ ...state, mode: mode}));
+            console.log('shuffle ON');
+            setState(state => ({ ...state, shuffle: true }));
         }
+    }
+
+    function setRepeat(mode) {
+        console.log('repeat: ' + mode);
+        setState(state => ({ ...state, repeat: mode }));
     }
 
     // update progress in accordance to audio's currentTime
@@ -96,8 +110,9 @@ const useAudio = () => {
         togglePlay,
         changeTrack,
         adjustProgress,
-        setPlayMode,
+        toggleShuffle,
         formatTime,
+        setRepeat,
         progress: state.progress,
         activeSong: state.activeSong,
         starttime: state.starttime,
@@ -106,7 +121,10 @@ const useAudio = () => {
         playlist: state.playlist,
         tracks: state.tracks,
         index: state.index,
-        mode: state.mode
+        shuffle: state.shuffle,
+        repeat: state.repeat,
+        playlistInfo: state.playlistInfo,
+        playlists: state.playlists
     }
 };
 

@@ -34,9 +34,11 @@ const MusicPlayer = () => {
     togglePlay,
     progress,
     activeSong,
-    setPlayMode,
+    toggleShuffle,
+    setRepeat,
     play,
-    mode
+    shuffle,
+    repeat
   } = useAudio();
   const { data } = usePalette(activeSong.cover)
   const [open, setOpen] = useState(false)
@@ -45,10 +47,31 @@ const MusicPlayer = () => {
     setOpen(!open);
   }
 
+  function handleRepeatButton() {
+    switch(repeat) {
+      case 'none':
+        setRepeat('repeat');
+        break;
+      case 'repeat':
+        setRepeat('repeatsong');
+        break;
+      case 'repeatsong':
+        setRepeat('none');
+        break;
+    }
+  }
+
+  function handleNextButton() {
+    if (repeat === 'repeatsong') {
+      setRepeat('repeat');
+    }
+    nextSong();
+  }
+
   return (
     <>
       <div className="Header">
-        <Link to="/">
+        <Link to="/playlist">
           <button className="btn-topicon">
             <img src={BackIcon} className="icon" />
           </button>
@@ -73,11 +96,19 @@ const MusicPlayer = () => {
         <div className="txt-subtitle">{activeSong.artist.join(', ')}</div>
         <div className="txt-title">{activeSong.title}</div>
         <div className="control-row">
-          <button className="btn-icon" style={{ color: mode === "shuffle" ? data.lightVibrant : '' }} onClick={() => setPlayMode('shuffle')}><img src={ShuffleIcon} className="icon"  /></button>
+          <button
+            className="btn-icon"
+            style={{ color: shuffle ? data.lightVibrant : '' }}
+            onClick={toggleShuffle}
+          >
+            <img src={ShuffleIcon} className="icon" />
+          </button>
           <button
             className="btn-control"
             onClick={prevSong}
-          ><img src={SkipBackwardIcon} className="icon" /></button>
+          >
+            <img src={SkipBackwardIcon} className="icon" />
+          </button>
           <button className="btn-play"
             style={{ backgroundColor: data.lightVibrant }}
             onClick={togglePlay}
@@ -87,9 +118,16 @@ const MusicPlayer = () => {
           </button>
           <button
             className="btn-control"
-            onClick={nextSong}
-          ><img src={SkipForwardIcon} className="icon" /></button>
-          <button className="btn-icon"><img src={RepeatIcon} className="icon" /></button>
+            onClick={handleNextButton}
+          >
+            <img src={SkipForwardIcon} className="icon" />
+          </button>
+          <button
+            className="btn-icon"
+            onClick={handleRepeatButton}
+          >
+            <img src={RepeatIcon} className="icon" />
+          </button>
         </div>
         <ProgressSlider
           value={progress}
