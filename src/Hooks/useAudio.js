@@ -55,6 +55,15 @@ const useAudio = () => {
         state.audio.play();
     }
 
+    function setPlaylist(n) {
+        console.log('change to playlist ' + n);
+        if (state.playlistInfo.id !== n) {
+            setState(state => ({ ...state, tracks: state.playlists[n].tracks, playlist: state.playlists[n], playlistInfo: state.playlists[n].info }));
+        } else {
+            console.log('same playlist');
+        }
+    }
+
     // when play is updated, play/pause music accordingly
     useEffect(() => {
         state.play ? state.audio.play() : state.audio.pause();
@@ -113,6 +122,7 @@ const useAudio = () => {
         toggleShuffle,
         formatTime,
         setRepeat,
+        setPlaylist,
         progress: state.progress,
         activeSong: state.activeSong,
         starttime: state.starttime,

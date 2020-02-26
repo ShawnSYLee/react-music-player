@@ -8,8 +8,8 @@ const Main = () => {
     return (
         <Switch>
             <Route exact path='/' component={MainScreen} />
-            <Route exact path='/playlist' component={ListMenu} />
             <Route exact path='/player' component={MusicPlayer} />
+            <Route path='/:playlist' component={ListMenu} />
         </Switch>
 
     );

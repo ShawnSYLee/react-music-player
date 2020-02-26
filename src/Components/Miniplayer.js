@@ -5,7 +5,7 @@ import PauseIcon from '../assets/icons/pause.svg';
 import PlayIcon from '../assets/icons/play.svg';
 import { FiPlay, FiPause, FiPlus } from "react-icons/fi";
 import { usePalette } from 'react-palette';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import ProgressBar from '../Components/ProgressBar';
 import useAudio from "../Hooks/useAudio";
@@ -20,6 +20,7 @@ const Miniplayer = () => {
         index
     } = useAudio();
     const { data } = usePalette(playlistInfo.cover)
+    let history = useHistory();
 
     return (
         <div className="miniplayer-container" style={{ display: index < 0 ? 'none' : 'block' }}>
@@ -40,7 +41,9 @@ const Miniplayer = () => {
                             <div className="txt-minisubtitle">{activeSong.artist.join(', ')}</div>
                             <div className="txt-minititle">{activeSong.title}</div>
                         </div></Link>
-                        <button className="btn-miniplayericon">
+                        <button className="btn-miniplayericon"
+                            onClick={()=> history.push('/player')}
+                        >
                             <img src={PlusIcon} className="icon" />
                         </button>
                     </div>

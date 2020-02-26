@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import '../App.css';
 
 import BackIcon from '../assets/icons/back.svg';
 
 import { FiChevronLeft } from "react-icons/fi";
 import { usePalette } from 'react-palette';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
 
 import FilterResults from 'react-filter-search';
 import Miniplayer from '../Components/Miniplayer';
@@ -16,28 +16,33 @@ const ListMenu = () => {
         changeTrack,
         activeSong,
         playlist,
+        playlists,
+        setPlaylist,
         playlistInfo,
         tracks,
         index
     } = useAudio();
     const { data } = usePalette(playlistInfo.cover);
 
+    const { pathname } = useLocation();
+    const [activePlaylist] = useState(playlists[pathname.substring(1, pathname.length)]);
+
     return (
         <>
             <div className="Header">
-            <Link to="/">
-                <button className="btn-topicon">
-                    <img src={BackIcon} className="icon" />
-                </button>
-            </Link>
+                <Link to="/">
+                    <button className="btn-topicon">
+                        <img src={BackIcon} className="icon" />
+                    </button>
+                </Link>
                 <span className="txt-label">Playlist</span>
             </div>
             <div className="playlisttop-wrapper">
                 <div className="playlistinfo-container">
-                    <img src={playlistInfo.cover} alt="Playlist Cover" className="playlist-cover" />
+                    <img src={activePlaylist.info.cover} alt="Playlist Cover" className="playlist-cover" />
                     <div className="playlist-info" >
-                        <div className="txt-playlistinfo">By {playlistInfo.author}</div>
-                        <div className="txt-playlisttitle">{playlistInfo.name}</div>
+                        <div className="txt-playlistinfo">By {activePlaylist.info.author}</div>
+                        <div className="txt-playlisttitle">{activePlaylist.info.name}</div>
                         <div className="txt-playlistinfo">{tracks.length} Songs</div>
                     </div>
                 </div>
@@ -46,8 +51,8 @@ const ListMenu = () => {
                 </div>
             </div>
             <div className="track-list">
-                {tracks.map((track, i) =>
-                    <Track key={track.id} i={i} track={track} curtrack={activeSong} data={data} func={changeTrack} />
+                {activePlaylist.tracks.map((track, i) =>
+                    <Track key={track.id} i={i} track={track} curtrack={activeSong} data={data} activePlaylist={activePlaylist} setPlaylist={setPlaylist} changeTrack={changeTrack} />
                 )}
                 <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} >
                 </div>
@@ -57,13 +62,16 @@ const ListMenu = () => {
     );
 }
 
-const Track = ({ i, track, curtrack, data, func }) => {
+const Track = ({ i, track, curtrack, data, activePlaylist, setPlaylist, changeTrack }) => {
     return (
         <div>
-            <button className="track-container" style={track.title === curtrack.title ? { color: data.vibrant } : {}}
-                onClick={() => func(i)}
+            <button className="track-container" 
+                onClick={() => {
+                    setPlaylist(activePlaylist.info.id);
+                    changeTrack(i)
+                }}
             >
-                <div className="txt-tracktitle">{track.title}</div>
+                <div className="txt-tracktitle" style={track.title == curtrack.title ? { color: data.vibrant } : {}}>{track.title}</div>
                 <div className="txt-trackinfo">{track.artist.join(', ')} | {track.album}</div>
             </button>
         </div>

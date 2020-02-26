@@ -22,7 +22,7 @@ import {
   FiRepeat
 } from "react-icons/fi";
 import { usePalette } from 'react-palette';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 
 import ProgressSlider from "../Components/ProgressSlider"
 import useAudio from "../Hooks/useAudio";
@@ -42,13 +42,14 @@ const MusicPlayer = () => {
   } = useAudio();
   const { data } = usePalette(activeSong.cover)
   const [open, setOpen] = useState(false)
+  let history = useHistory();
 
   function toggle() {
     setOpen(!open);
   }
 
   function handleRepeatButton() {
-    switch(repeat) {
+    switch (repeat) {
       case 'none':
         setRepeat('repeat');
         break;
@@ -71,11 +72,11 @@ const MusicPlayer = () => {
   return (
     <>
       <div className="Header">
-        <Link to="/playlist">
-          <button className="btn-topicon">
-            <img src={BackIcon} className="icon" />
-          </button>
-        </Link>
+        <button className="btn-topicon"
+          onClick={()=> history.goBack()}
+        >
+          <img src={BackIcon} className="icon" />
+        </button>
         <span className="txt-label">Player</span>
         <button className="btn-righticon" onClick={toggle}>
           <img src={PlusIcon} className="icon" style={{ transform: open ? 'rotate(135deg)' : 'none' }} />

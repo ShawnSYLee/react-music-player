@@ -21,8 +21,9 @@ export const tracks = [
 ];
 
 export const playlists = {
-    'liked-songs': {
+    'shawn_lee-liked_songs': {
         info: {
+            id: 'shawn_lee-liked_songs',
             name: 'Liked Songs',
             cover: imagedir + 'Flow.jpg',
             author: 'Shawn Lee'
@@ -40,8 +41,9 @@ export const playlists = {
             songs["midnight_kids-run_it"]
         ]
     },
-    'edm':{
+    'shawn_lee-edm':{
         info: {
+            id: 'shawn_lee-edm',
             name: 'EDM',
             cover: imagedir + 'House.jpg',
             author: 'Shawn Lee'
