@@ -17,7 +17,6 @@ const ListMenu = () => {
         activeSong,
         playlist,
         playlists,
-        setPlaylist,
         playlistInfo,
         tracks,
         index
@@ -43,7 +42,7 @@ const ListMenu = () => {
                     <div className="playlist-info" >
                         <div className="txt-playlistinfo">By {activePlaylist.info.author}</div>
                         <div className="txt-playlisttitle">{activePlaylist.info.name}</div>
-                        <div className="txt-playlistinfo">{tracks.length} Songs</div>
+                        <div className="txt-playlistinfo">{activePlaylist.tracks.length} Songs</div>
                     </div>
                 </div>
                 <div className="playlist-search-container" >
@@ -52,7 +51,7 @@ const ListMenu = () => {
             </div>
             <div className="track-list">
                 {activePlaylist.tracks.map((track, i) =>
-                    <Track key={track.id} i={i} track={track} curtrack={activeSong} data={data} activePlaylist={activePlaylist} setPlaylist={setPlaylist} changeTrack={changeTrack} />
+                    <Track key={track.id} i={i} track={track} curtrack={activeSong} data={data} activePlaylist={activePlaylist} changeTrack={changeTrack} />
                 )}
                 <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} >
                 </div>
@@ -62,13 +61,12 @@ const ListMenu = () => {
     );
 }
 
-const Track = ({ i, track, curtrack, data, activePlaylist, setPlaylist, changeTrack }) => {
+const Track = ({ i, track, curtrack, data, activePlaylist, changeTrack }) => {
     return (
         <div>
             <button className="track-container" 
                 onClick={() => {
-                    setPlaylist(activePlaylist.info.id);
-                    changeTrack(i)
+                    changeTrack(activePlaylist.info.id, i);
                 }}
             >
                 <div className="txt-tracktitle" style={track.title == curtrack.title ? { color: data.vibrant } : {}}>{track.title}</div>
