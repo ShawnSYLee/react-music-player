@@ -22,11 +22,27 @@ const MainScreen = () => {
 
     return (
         <>
-            <div className="Header">
-                <span className="txt-label">Music</span>
+            <div className="MainScreenHeader">
+                <span className="txt-biglabel">Music</span>
+            </div>
+            <div className="mainscreen-tabs">
+                <span className="txt-label">Playlists </span>
+                <span className="txt-label" style={{paddingLeft: '8px', color: 'rgb(200, 200, 200)'}}>Songs </span>
+            </div>
+            <div className="playlist-search-container" >
+                <div className="search-bar">Search</div>
             </div>
             <div className="track-list">
-                {Object.keys(playlists).map((pl, i) => 
+                {Object.keys(playlists).map((pl, i) =>
+                    <Playlist key={pl} i={i} playlist={playlists[pl].info} curplaylist={playlist} data={data} />
+                )}
+                {Object.keys(playlists).map((pl, i) =>
+                    <Playlist key={pl} i={i} playlist={playlists[pl].info} curplaylist={playlist} data={data} />
+                )}
+                {Object.keys(playlists).map((pl, i) =>
+                    <Playlist key={pl} i={i} playlist={playlists[pl].info} curplaylist={playlist} data={data} />
+                )}
+                {Object.keys(playlists).map((pl, i) =>
                     <Playlist key={pl} i={i} playlist={playlists[pl].info} curplaylist={playlist} data={data} />
                 )}
                 <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} >
@@ -42,11 +58,14 @@ const Playlist = ({ i, playlist, curplaylist, data, func }) => {
         <div>
             <Link to='/playlist'>
                 <button
-                    className="track-container"
+                    className="playlistlist-container"
                     style={playlist.name === curplaylist.name ? { color: data.vibrant } : {}}
                 >
-                    <div className="txt-tracktitle">{playlist.name}</div>
-                    <div className="txt-trackinfo">{playlist.author}</div>
+                    <img src={playlist.cover} className="img-playlistlistcover" />
+                    <div className="playlistlist-textcontainer" >
+                        <div className="txt-tracktitle">{playlist.name}</div>
+                        <div className="txt-trackinfo">By {playlist.author}</div>
+                    </div>
                 </button>
             </Link>
         </div>

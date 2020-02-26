@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'Futura PT';
-  src: local('Futura'), url('./fonts/Futura_PT_Book.ttf') format('truetype');
+  src: local('Futura'), url('./fonts/Futura_PT_Medium.ttf') format('truetype');
 }
 
 body {

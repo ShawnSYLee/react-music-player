@@ -14,7 +14,13 @@ button:focus {
 .txt-label {
   padding: 5px 0px 5px 3px;
   font-size: 1.5rem;
-  font-weight: bolder;
+  font-weight: 900;
+}
+
+.txt-biglabel {
+  padding: 5px 0px 5px 3px;
+  font-size: 2.5rem;
+  font-weight: 900;
 }
 
 .txt-title {
@@ -82,6 +88,17 @@ button:focus {
 }
 
 /* Header Styles */
+
+.MainScreenHeader {
+  top: 0;
+  width: 100%;
+  padding: 30px 30px 0px 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 6rem;
+}
 
 .Header {
   top: 0;
@@ -350,12 +367,14 @@ button:focus {
   text-align: left;
   font-size: 1.2rem;
   font-weight: 500;
+  color: rgb(80, 80, 80);
 }
 
 .txt-trackinfo {
   text-align: left;
   font-weight: 500;
   font-size: 0.8rem;
+  color: rgb(200, 200, 200);
 }
 
 .track-list {
@@ -436,4 +455,33 @@ button:focus {
 
 .right-time {
   margin-left: auto;
+}
+
+.playlistlist-container {
+  padding: 20px 40px 15px;
+  width: 100%;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}
+
+.img-playlistlistcover {
+  height: 10vh;
+  width: 10vh;
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.playlistlist-textcontainer {
+  padding: 12px 15px;
+}
+
+.mainscreen-tabs {
+  padding: 0px 30px;
+  height: 4rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: flex-end;
 }
