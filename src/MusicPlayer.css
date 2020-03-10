@@ -1,0 +1,59 @@
+.txt-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.txt-subtitle {
+  margin-top: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+/* MusicInfo Styles */
+
+.AlbumContainer {
+  height: Calc(100vh - 22.5rem);
+  padding: 15px 18px;
+  position: relative;
+}
+
+.img-coverart {
+  z-index: 1000;
+  max-width: 90%;
+  max-height: 100%;
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  object-fit: contain;
+}
+
+/* MusicPlayer Styles */
+
+.Controller {
+  height: 16.5rem;
+  padding: 0px 20px 20px;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+.control-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.MusicPlayerHeader {
+  top: 0;
+  width: 100%;
+  padding: 15px 30px 0px 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  height: 6rem;
+}

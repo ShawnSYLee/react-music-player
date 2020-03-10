@@ -21,10 +21,10 @@ export const tracks = [
 ];
 
 export const playlists = {
-    'shawn_lee-liked_songs': {
+    'shawn_lee-all_songs': {
         info: {
-            id: 'shawn_lee-liked_songs',
-            name: 'Liked Songs',
+            id: 'shawn_lee-all_songs',
+            name: 'All Songs',
             cover: imagedir + 'Flow.jpg',
             author: 'Shawn Lee'
         },

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { songs } from "./data/Songs"
 import { tracks, info, playlists } from "./data/Playlist";
 
 const MusicContext = React.createContext([{}, () => { }]);
@@ -6,10 +7,10 @@ const MusicContext = React.createContext([{}, () => { }]);
 const MusicProvider = (props) => {
   const [state, setState] = useState({
     playlists: playlists,
-    tracks: playlists["shawn_lee-liked_songs"].tracks,
+    tracks: playlists["shawn_lee-all_songs"].tracks,
     index: -1,
-    audioSrc: playlists["shawn_lee-liked_songs"].tracks[0].src,
-    audio: new Audio(playlists["shawn_lee-liked_songs"].tracks[0]),
+    audioSrc: playlists["shawn_lee-all_songs"].tracks[0].src,
+    audio: new Audio(playlists["shawn_lee-all_songs"].tracks[0]),
     play: false,
     progress: 0.0,
     activeSong: {
@@ -22,8 +23,8 @@ const MusicProvider = (props) => {
     },
     starttime: '0:00',
     color: "#ffffff",
-    playlist: playlists["shawn_lee-liked_songs"],
-    playlistInfo: playlists["shawn_lee-liked_songs"].info,
+    playlist: playlists["shawn_lee-all_songs"],
+    playlistInfo: playlists["shawn_lee-all_songs"].info,
     shuffle: false,
     repeat: 'none'
   });

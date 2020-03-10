@@ -10,13 +10,13 @@ const useAudio = () => {
         console.log(state.repeat);
         if (state.repeat === 'repeatsong') {
             console.log("repeat song");
-            changeTrack(state.index);
+            changeTrack(state.playlist.info.id, state.index);
         } else if (state.index < state.tracks.length - 1) {
             console.log("next song");
-            changeTrack(state.index + 1);
+            changeTrack(state.playlist.info.id, state.index + 1);
         } else if (state.repeat === 'repeat') {
             console.log("play first song");
-            changeTrack(0);
+            changeTrack(state.playlist.info.id, 0);
         } else {
             console.log("stop playing");
             setState(state => ({ ...state, index: 0, activeSong: state.tracks[0], audioSrc: state.tracks[0].src, play: false }));
@@ -31,7 +31,7 @@ const useAudio = () => {
         if (state.progress > 10 || state.index === 0) {
             state.audio.currentTime = 0;
         } else if (state.index > 0) {
-            changeTrack(state.index - 1);
+            changeTrack(state.playlist.info.id, state.index - 1);
         }
         setState(state => ({ ...state, play: true }));
     }

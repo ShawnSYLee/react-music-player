@@ -35,12 +35,12 @@ const Miniplayer = () => {
                         {play === true && <img src={PauseIcon} style={{opacity: '0.3'}} className="largeicon" />}
                     </button>
                 </div>
-                <div className="wrapper-stack">
+                <div className="wrapper-stack" onClick={()=> history.push('/player')}>
                     <div className="container-row">
-                        <Link to="/player" style={{ color: 'rgb(50, 50, 50)' }}><div className="container-stack">
+                        <div className="container-stack">
                             <div className="txt-minisubtitle">{activeSong.artist.join(', ')}</div>
                             <div className="txt-minititle">{activeSong.title}</div>
-                        </div></Link>
+                        </div>
                         <button className="btn-miniplayericon"
                             onClick={()=> history.push('/player')}
                         >
@@ -49,7 +49,6 @@ const Miniplayer = () => {
                     </div>
                     <ProgressBar color={data.vibrant} />
                 </div>
-
             </div>
         </div>
     );
