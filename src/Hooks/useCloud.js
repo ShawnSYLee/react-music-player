@@ -3,14 +3,23 @@ import * as firebase from "firebase/app"
 import "firebase/firestore"
 import "firebase/storage"
 
-let store
-
 const useCloud = () => {
     const [audioFile, setAudioFile] = useState(null);
     const [artFile, setArtFile] = useState(null);
     const [title, setTitle] = useState("title");
     const [artist, setArtist] = useState("artist");
     const [album, setAlbum] = useState("album");
+
+
+
+    
+
+    // const derp = cloudPlaylists.get();
+    // derp.then((snap) => {
+    //     // console.log(snap);
+    //     const der = snap.docs[0].data();
+    //     // console.log(der);
+    // });
 
     function handleUpload(e) {
         const file = e.target.files[0];
@@ -38,21 +47,9 @@ const useCloud = () => {
         artFile, setArtFile,
         title, setTitle,
         artist, setArtist,
-        album, setAlbum
+        album, setAlbum,
     }
 }
 
 export { useCloud };
 
-const firebaseConfig = {
-    apiKey: "AIzaSyDqeeErNO_5d6uk0xUEooRiiMOGRQra6z0",
-    authDomain: "reactmusicapp-sylee2k.firebaseapp.com",
-    databaseURL: "https://reactmusicapp-sylee2k.firebaseio.com",
-    projectId: "reactmusicapp-sylee2k",
-    storageBucket: "reactmusicapp-sylee2k.appspot.com",
-    messagingSenderId: "133469247508",
-    appId: "1:133469247508:web:660a0e1399b3f236fbef01"
-};
-
-firebase.initializeApp(firebaseConfig)
-store = firebase.firestore()

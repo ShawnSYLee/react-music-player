@@ -22,7 +22,6 @@ const MainScreen = () => {
   const { data } = usePalette(playlist.cover);
   const [mode, setMode] = useState("playlists");
 
-
   return (
     <>
       <div className="MainScreenHeader">
@@ -37,7 +36,7 @@ const MainScreen = () => {
       </div>
       <div className="playlist-list" style={{ display: mode === "playlists" ? 'block' : 'none' }}>
         {Object.keys(playlists).map((pl, i) =>
-          <Playlist key={pl} i={i} playlist={playlists[pl].info} curplaylist={playlist} data={data} />
+          <Playlist key={pl} i={i} id={Object.keys(playlists)[i]} playlist={playlists[pl]} curplaylist={playlist} data={data} />
         )}
         <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} >
         </div>
@@ -50,12 +49,12 @@ const MainScreen = () => {
   );
 }
 
-const Playlist = ({ i, playlist, curplaylist, data }) => {
+const Playlist = ({ i, id, playlist, curplaylist, data }) => {
   let history = useHistory();
   return (
     <div>
       <button
-        onClick={() => history.push('/' + playlist.id)}
+        onClick={() => history.push('/' + id)}
         className="playlistlist-container"
         style={playlist.name === curplaylist.name ? { color: data.vibrant } : {}}
       >

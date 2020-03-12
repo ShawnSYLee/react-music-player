@@ -21,13 +21,11 @@ export const tracks = [
 ];
 
 export const playlists = {
-    'shawn_lee-all_songs': {
-        info: {
-            id: 'shawn_lee-all_songs',
-            name: 'All Songs',
-            cover: imagedir + 'Flow.jpg',
-            author: 'Shawn Lee'
-        },
+    'fCgiiouoAYWMsCWzRxVa': {
+        id: 'shawn_lee-all_songs',
+        name: 'All Songs',
+        cover: imagedir + 'Flow.jpg',
+        author: 'Shawn Lee',
         tracks: [
             songs["shy_martin-good_together"],
             songs["reik-raptame"],
@@ -42,12 +40,10 @@ export const playlists = {
         ]
     },
     'shawn_lee-edm':{
-        info: {
-            id: 'shawn_lee-edm',
-            name: 'EDM',
-            cover: imagedir + 'House.jpg',
-            author: 'Shawn Lee'
-        },
+        id: 'shawn_lee-edm',
+        name: 'EDM',
+        cover: imagedir + 'House.jpg',
+        author: 'Shawn Lee',
         tracks: [
             songs["galantis-we_can_get_high"],
             songs["elephante-glass_mansion"],

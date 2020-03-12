@@ -10,13 +10,13 @@ const useAudio = () => {
         console.log(state.repeat);
         if (state.repeat === 'repeatsong') {
             console.log("repeat song");
-            changeTrack(state.playlist.info.id, state.index);
+            changeTrack(state.playlist.id, state.index);
         } else if (state.index < state.tracks.length - 1) {
             console.log("next song");
-            changeTrack(state.playlist.info.id, state.index + 1);
+            changeTrack(state.playlist.id, state.index + 1);
         } else if (state.repeat === 'repeat') {
             console.log("play first song");
-            changeTrack(state.playlist.info.id, 0);
+            changeTrack(state.playlist.id, 0);
         } else {
             console.log("stop playing");
             setState(state => ({ ...state, index: 0, activeSong: state.tracks[0], audioSrc: state.tracks[0].src, play: false }));
@@ -31,7 +31,7 @@ const useAudio = () => {
         if (state.progress > 10 || state.index === 0) {
             state.audio.currentTime = 0;
         } else if (state.index > 0) {
-            changeTrack(state.playlist.info.id, state.index - 1);
+            changeTrack(state.playlist.id, state.index - 1);
         }
         setState(state => ({ ...state, play: true }));
     }
@@ -49,9 +49,9 @@ const useAudio = () => {
 
     // when audioSrc is updated, update the audio src and play
     function changeTrack(n, i) {
-        if (state.playlistInfo.id !== n) {
+        if (state.playlist.id !== n) {
             console.log('change to playlist ' + n);
-            setState(state => ({ ...state, tracks: state.playlists[n].tracks, playlist: state.playlists[n], playlistInfo: state.playlists[n].info }));
+            setState(state => ({ ...state, tracks: state.playlists[n].tracks, playlist: state.playlists[n]}));
             setState(state => ({ ...state, index: i, activeSong: state.playlists[n].tracks[i], audioSrc: state.playlists[n].tracks[i].src, play: true }));
             state.audio.src = state.playlists[n].tracks[i].src;
             state.audio.currentTime = 0;
@@ -134,7 +134,6 @@ const useAudio = () => {
         index: state.index,
         shuffle: state.shuffle,
         repeat: state.repeat,
-        playlistInfo: state.playlistInfo,
         playlists: state.playlists
     }
 };

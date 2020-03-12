@@ -16,10 +16,9 @@ const Miniplayer = () => {
         activeSong,
         play,
         playlist,
-        playlistInfo,
         index
     } = useAudio();
-    const { data } = usePalette(playlistInfo.cover)
+    const { data } = usePalette(playlist.cover)
     let history = useHistory();
 
     return (
