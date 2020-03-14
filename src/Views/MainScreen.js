@@ -12,11 +12,8 @@ import { useCloud } from "../Hooks/useCloud";
 
 const MainScreen = () => {
   const {
-    changeTrack,
-    activeSong,
     playlist,
     playlists,
-    tracks,
     index
   } = useAudio();
   const { data } = usePalette(playlist.cover);
@@ -54,7 +51,10 @@ const Playlist = ({ i, id, playlist, curplaylist, data }) => {
   return (
     <div>
       <button
-        onClick={() => history.push('/' + id)}
+        onClick={() => {
+          
+          history.push('/' + id)
+        }}
         className="playlistlist-container"
         style={playlist.name === curplaylist.name ? { color: data.vibrant } : {}}
       >

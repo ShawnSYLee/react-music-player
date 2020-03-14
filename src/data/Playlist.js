@@ -21,8 +21,8 @@ export const tracks = [
 ];
 
 export const playlists = {
-    'fCgiiouoAYWMsCWzRxVa': {
-        id: 'shawn_lee-all_songs',
+    'default': {
+        id: 'default',
         name: 'All Songs',
         cover: imagedir + 'Flow.jpg',
         author: 'Shawn Lee',
@@ -37,17 +37,6 @@ export const playlists = {
             songs["lauv-mean_it"],
             songs["shawn_mendes-lost_in_japan_remix"],
             songs["midnight_kids-run_it"]
-        ]
-    },
-    'shawn_lee-edm':{
-        id: 'shawn_lee-edm',
-        name: 'EDM',
-        cover: imagedir + 'House.jpg',
-        author: 'Shawn Lee',
-        tracks: [
-            songs["galantis-we_can_get_high"],
-            songs["elephante-glass_mansion"],
-            songs["shawn_mendes-lost_in_japan_remix"]
         ]
     }
 };
