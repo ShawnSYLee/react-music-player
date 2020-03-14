@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { playlists } from "./data/Playlist";
+import { playlists as plist } from "./data/Playlist";
 
 import * as firebase from "firebase/app"
 import "firebase/firestore"
@@ -21,13 +21,15 @@ const store = firebase.firestore()
 const MusicContext = React.createContext([{}, () => { }]);
 
 const MusicProvider = (props) => {
+    // let playlists = plist;
     // initialize to a placeholder state
     const [state, setState] = useState({
-        playlists: playlists,
-        tracks: playlists["fCgiiouoAYWMsCWzRxVa"].tracks,
+        playlistplaceholder: plist["default"],
+        playlists: plist,
+        tracks: plist["default"].tracks,
         index: -1,
-        audioSrc: playlists["fCgiiouoAYWMsCWzRxVa"].tracks[0].src,
-        audio: new Audio(playlists["fCgiiouoAYWMsCWzRxVa"].tracks[0]),
+        audioSrc: plist["default"].tracks[0].src,
+        audio: new Audio(plist["default"].tracks[0]),
         play: false,
         progress: 0.0,
         activeSong: {
@@ -40,7 +42,9 @@ const MusicProvider = (props) => {
         },
         starttime: '0:00',
         color: "#ffffff",
-        playlist: playlists["fCgiiouoAYWMsCWzRxVa"],
+        playlist: plist["default"],
+        displayinfo: plist["default"],
+        displaylist: plist["default"].tracks,
         shuffle: false,
         repeat: 'none'
     });
@@ -51,29 +55,23 @@ const MusicProvider = (props) => {
     // const [likedsongs, setLikedsongs] = useState(0);
     // const [tracklist, setTracklist] = useState([]);
 
-    useEffect(() => {
-        cloudPlaylists.onSnapshot((e) => e.docChanges().forEach((c) => {
-            const { doc } = c
-            const id = doc.id;
-            // setLikedsongs(doc.data());
-            setPlaylistlist(playlistlist => ({ ...playlistlist, [id]: doc.data() }));
-            console.log("FETCHED DATA: ", doc.data());
-        }));
-    }, []);
-
+    
     // useEffect(() => {
-    //     console.log("LIKEDSONGS: ", likedsongs);
-    //     if (likedsongs !== 0) {
-    //         setTracklist(tracklist => []);
-    //         likedsongs.tracks.map((track, i) => {
-    //             track.onSnapshot((doc) => {
-    //                 console.log("adding track:", doc.data());
-    //                 setTracklist(tracklist => [...tracklist, doc.data()]);
-    //             });
+    //     console.log("USEEFFECT IN MUSICCONTEXT");
+    //     setState(state => ({ ...state, playlists: {} }));
+    //     cloudPlaylists.onSnapshot((e) => e.docChanges().forEach((c) => {
+    //         const { doc } = c
+    //         const id = doc.id;
+    //         // setLikedsongs(doc.data());
+    //         setState((state) => {
+    //             const temp = state.playlists;
+    //             const pl = { ...temp, [id]: doc.data() };     
+    //             return ({ ...state, playlists: pl });
     //         });
-    //     }
-    // }, [likedsongs]);
-
+    //         console.log("FETCHED DATA: ", doc.data());
+    //     }));
+    // }, []);
+    
     // useEffect(() => {
     //     console.log("tracklist:", tracklist);
     //     if (tracklist.length > 0) {
@@ -103,33 +101,15 @@ const MusicProvider = (props) => {
 
     // }, [tracklist]);
 
-    useEffect(() => {
-        // console.log("tracklist:", tracklist);
-        if (playlistlist !== null) {
-            setState({
-                playlists: playlistlist,
-                tracks: playlists["fCgiiouoAYWMsCWzRxVa"].tracks,
-                index: -1,
-                audioSrc: playlists["fCgiiouoAYWMsCWzRxVa"].tracks[0].src,
-                audio: new Audio(playlists["fCgiiouoAYWMsCWzRxVa"].tracks[0]),
-                play: false,
-                progress: 0.0,
-                activeSong: {
-                    id: 'placeholder',
-                    src: '',
-                    cover: '',
-                    title: 'Title',
-                    artist: ['Artist'],
-                    album: 'Album'
-                },
-                starttime: '0:00',
-                color: "#ffffff",
-                playlist: playlists["fCgiiouoAYWMsCWzRxVa"],
-                shuffle: false,
-                repeat: 'none'
-            });
-        }
-    }, [playlistlist]);
+    // useEffect(() => {
+    //     console.log("playlists:", playlists);
+    //     if (playlistlist !== null) {
+    //         setState({
+    //             ...state,
+    //             playlists: playlistlist,
+    //         });
+    //     }
+    // }, [playlistlist]);
 
     // useEffect(() => {
     //   console.log("STATE:", state);

@@ -2,6 +2,14 @@ const audiodir = '../assets/audio/';
 const imagedir = '../assets/images/';
 
 export const songs = {
+    'default': {
+        id: 'default',
+        src: audiodir + 'SHY Martin - Good Together.mp3',
+        cover: imagedir + 'Placeholder.jpg',
+        title: 'default',
+        artist: ['default'],
+        album: 'default'
+    },
     'shy_martin-good_together': {
         id: 'shy_martin-good_together',
         src: audiodir + 'SHY Martin - Good Together.mp3',

@@ -46,15 +46,12 @@ const MainScreen = () => {
   );
 }
 
-const Playlist = ({ i, id, playlist, curplaylist, data }) => {
+const Playlist = ({ i, id, playlist, curplaylist, data, func }) => {
   let history = useHistory();
   return (
     <div>
       <button
-        onClick={() => {
-          
-          history.push('/' + id)
-        }}
+        onClick={() => {history.push('/' + id)}}
         className="playlistlist-container"
         style={playlist.name === curplaylist.name ? { color: data.vibrant } : {}}
       >

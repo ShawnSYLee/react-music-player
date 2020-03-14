@@ -1,9 +1,58 @@
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { playlists as plist } from "../data/Playlist";
 import { MusicContext } from '../MusicContext';
-import { playlists } from '../data/Playlist';
+import * as firebase from "firebase/app"
+import "firebase/firestore"
+import "firebase/storage"
+
+const store = firebase.firestore()
 
 const useAudio = () => {
+    const [id, setId] = useState("default");
     const [state, setState] = useContext(MusicContext);
+    const cloudPlaylists = store.collection("playlists");
+
+    useEffect(() => {
+        console.log("USEEFFECT IN USEAUDIO");
+        if (state.playlists === plist) {
+            setState(state => ({ ...state, playlists: {} }));
+            cloudPlaylists.onSnapshot((e) => e.docChanges().forEach((c) => {
+                const { doc } = c
+                const id = doc.id;
+                // setLikedsongs(doc.data());
+                setState((state) => {
+                    const temp = state.playlists;
+                    const pl = { ...temp, [id]: doc.data() };
+                    return ({ ...state, playlists: pl });
+                });
+                // console.log("FETCHED DATA: ", doc.data());
+            }));
+        }
+    }, []);
+
+    function passID(newid) {
+        console.log("PASS ID ", newid, state.playlists);
+        if (newid !== id && state.playlists[newid] !== undefined) {
+            setId(newid)
+            setDisplayFromId(newid);
+        }
+    }
+
+    function setDisplayDefault() {
+        console.log("SETTING DISPLAY DEFAULT");
+        setState(state => ({ ...state, displayinfo: plist["default"], displaylist: plist["default"].tracks }));
+    }
+
+    function setDisplayFromId(id) {
+        console.log("SETTING DISPLAY FROM ID:", id);
+        setState(state => ({ ...state, displayinfo: state.playlists[id], displaylist: [] }))
+        state.playlists[id].tracks.map((track, i) => {
+            track.onSnapshot((doc) => {
+                console.log("adding track:", doc.data());
+                setState(state => ({ ...state, displaylist: [...state.displaylist, doc.data()] }));
+            });
+        });
+    }
 
     // handle skip forward button
     function nextSong() {
@@ -51,9 +100,9 @@ const useAudio = () => {
     function changeTrack(n, i) {
         if (state.playlist.id !== n) {
             console.log('change to playlist ' + n);
-            setState(state => ({ ...state, tracks: state.playlists[n].tracks, playlist: state.playlists[n]}));
-            setState(state => ({ ...state, index: i, activeSong: state.playlists[n].tracks[i], audioSrc: state.playlists[n].tracks[i].src, play: true }));
-            state.audio.src = state.playlists[n].tracks[i].src;
+            setState(state => ({ ...state, tracks: state.displaylist, playlist: state.playlists[n] }));
+            setState(state => ({ ...state, index: i, activeSong: state.displaylist[i], audioSrc: state.displaylist[i].src, play: true }));
+            state.audio.src = state.displaylist[i].src;
             state.audio.currentTime = 0;
             state.audio.play();
         } else {
@@ -63,7 +112,6 @@ const useAudio = () => {
             state.audio.currentTime = 0;
             state.audio.play();
         }
-
     }
 
     // when play is updated, play/pause music accordingly
@@ -116,6 +164,7 @@ const useAudio = () => {
     }
 
     return {
+        passID,
         nextSong,
         prevSong,
         togglePlay,
@@ -124,6 +173,8 @@ const useAudio = () => {
         toggleShuffle,
         formatTime,
         setRepeat,
+        setDisplayDefault,
+        setDisplayFromId,
         progress: state.progress,
         activeSong: state.activeSong,
         starttime: state.starttime,
@@ -134,7 +185,10 @@ const useAudio = () => {
         index: state.index,
         shuffle: state.shuffle,
         repeat: state.repeat,
-        playlists: state.playlists
+        playlists: state.playlists,
+        displaylist: state.displaylist,
+        displayinfo: state.displayinfo,
+        playlistplaceholder: state.playlistplaceholder
     }
 };
 

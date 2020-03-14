@@ -14,22 +14,27 @@ import { useCloud } from "../Hooks/useCloud";
 
 const ListMenu = () => {
     const {
+        passID,
         changeTrack,
         activeSong,
         playlist,
         playlists,
+        playlistplaceholder,
         tracks,
-        index
+        index,
+        displaylist,
+        displayinfo
     } = useAudio();
     const { data } = usePalette(playlist.cover);
 
     const { pathname } = useLocation();
-    const [activePlaylist, setActivePlaylist] = useState(playlists[pathname] || playlists["fCgiiouoAYWMsCWzRxVa"]);
+    useEffect(() => {
+        console.log("ID", pathname);
+    });
 
-    useEffect(()=> {
-        console.log("ACTIVE PLAYLIST:", activePlaylist);
-    }, [activePlaylist])
-    
+    useEffect(() => {
+        passID(pathname.substring(1));
+    }, [playlists]);
 
     return (
         <>
@@ -43,11 +48,11 @@ const ListMenu = () => {
             </div>
             <div className="playlisttop-wrapper">
                 <div className="playlistinfo-container">
-                    <img src={activePlaylist.cover} alt="Playlist Cover" className="playlist-cover" />
+                    <img src={displayinfo.cover} alt="Playlist Cover" className="playlist-cover" />
                     <div className="playlist-info" >
-                        <div className="txt-playlistinfo">By {activePlaylist.author}</div>
-                        <div className="txt-playlisttitle">{activePlaylist.name}</div>
-                        <div className="txt-playlistinfo">{activePlaylist.tracks.length} Songs</div>
+                        <div className="txt-playlistinfo">By {displayinfo.author}</div>
+                        <div className="txt-playlisttitle">{displayinfo.name}</div>
+                        <div className="txt-playlistinfo">{displayinfo.tracks.length} Songs</div>
                     </div>
                 </div>
                 <div className="playlist-search-container" >
@@ -55,8 +60,8 @@ const ListMenu = () => {
                 </div>
             </div>
             <div className="track-list">
-                {tracks.map((track, i) =>
-                    <Song key={track.id} i={i} track={track} curtrack={activeSong} data={data} curPlaylist={playlist} activePlaylist={activePlaylist} changeTrack={changeTrack} />
+                {displaylist.map((track, i) =>
+                    <Song key={track.id} i={i} track={track} curtrack={activeSong} data={data} curPlaylist={playlist} activePlaylist={displayinfo} pathname={pathname} changeTrack={changeTrack} />
                 )}
                 <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} >
                 </div>
@@ -66,12 +71,12 @@ const ListMenu = () => {
     );
 }
 
-const Song = ({ i, track, curtrack, data, curPlaylist, activePlaylist, changeTrack }) => {
+const Song = ({ i, track, curtrack, data, curPlaylist, activePlaylist, pathname, changeTrack }) => {
     return (
         <div>
             <button className="track-container" 
                 onClick={() => {
-                    changeTrack(activePlaylist.id, i);
+                    changeTrack(pathname.substring(1), i);
                 }}
             >
                 <div className="txt-tracktitle" style={track.title == curtrack.title && curPlaylist.id == activePlaylist.id ? { color: data.vibrant } : {}}>{track.title}</div>
