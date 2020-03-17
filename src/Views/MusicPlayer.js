@@ -1,7 +1,7 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import { usePalette } from 'react-palette';
 import { useHistory } from 'react-router-dom';
-import { ThemeContext } from '../ThemeContext';
+import { ThemeContext } from '../Contexts/ThemeContext';
 
 import ProgressSlider from "../Components/ProgressSlider"
 
@@ -16,9 +16,9 @@ import BackIcon from '../assets/icons/back.svg';
 import PlusIcon from '../assets/icons/plus.svg';
 import PauseIcon from '../assets/icons/pause.svg';
 
-import '../App.css';
-import '../MusicPlayerM.css';
-// import '../MusicPlayer.css';
+import '../Styles/App.css';
+// import '../Styles/MusicPlayerM.css';
+import '../Styles/MusicPlayer.css';
 
 const MusicPlayer = () => {
     const {
@@ -66,24 +66,6 @@ const MusicPlayer = () => {
 
     return (
         <>
-            {/* HEADER NAVIGATION */}
-            <div className="MusicPlayerHeader">
-                <button className="btn-topicon"
-                    onClick={() => history.goBack()}
-                >
-                    <img className="icon" src={BackIcon} />
-                </button>
-                <span className="txt-label">Player</span>
-                <button className="btn-righticon"
-                    onClick={toggle}
-                >
-                    <img className="icon"
-                        src={PlusIcon}
-                        style={{ transform: open ? 'rotate(135deg)' : 'none' }}
-                    />
-                </button>
-            </div>
-
             {/* DROPDOWN MODAL */}
             <div className="droptest"
                 style={{
@@ -112,9 +94,34 @@ const MusicPlayer = () => {
                 onClick={toggle}
             />
 
+            {/* HEADER NAVIGATION */}
+            <div className="MusicPlayerHeader">
+                <button className="btn-topicon"
+                    onClick={() => history.goBack()}
+                >
+                    <img className="icon"
+                        src={BackIcon}
+                        alt="back button"
+                    />
+                </button>
+                <span className="txt-label">Player</span>
+                <button className="btn-righticon"
+                    onClick={toggle}
+                >
+                    <img className="icon"
+                        src={PlusIcon}
+                        alt="plus button"
+                        style={{ transform: open ? 'rotate(135deg)' : 'none' }}
+                    />
+                </button>
+            </div>
+
             {/* ALBUM ART */}
             <div className="AlbumContainer">
-                <img className="img-coverart" src={activeSong.thumbs[1]} alt="cover art" />
+                <img className="img-coverart"
+                    src={activeSong.thumbs[1]}
+                    alt="cover art"
+                />
             </div>
             
             {/* ALBUM INFO AND CONTROLLER */}
@@ -132,32 +139,50 @@ const MusicPlayer = () => {
                         style={{ color: shuffle ? data.lightVibrant : '' }}
                         onClick={toggleShuffle}
                     >
-                        <img className="icon" src={ShuffleIcon} />
+                        <img className="icon"
+                            src={ShuffleIcon}
+                            alt="shuffle button"
+                        />
                     </button>
                     <button
                         className="btn-control"
                         onClick={prevSong}
                     >
-                        <img className="icon" src={SkipBackwardIcon} />
+                        <img className="icon"
+                            src={SkipBackwardIcon}
+                            alt="skip back button"
+                        />
                     </button>
                     <button className="btn-play"
                         style={{ backgroundColor: data.lightVibrant }}
                         onClick={togglePlay}
                     >
-                        {play === false && <img src={PlayIcon} className="playicon" />}
-                        {play === true && <img src={PauseIcon} className="largeicon" />}
+                        {play === false && <img className="playicon" 
+                            src={PlayIcon}
+                            alt="play button"
+                        />}
+                        {play === true && <img className="largeicon"
+                            src={PauseIcon}
+                            alt="pause button"
+                        />}
                     </button>
                     <button
                         className="btn-control"
                         onClick={handleNextButton}
                     >
-                        <img className="icon" src={SkipForwardIcon} />
+                        <img className="icon"
+                            src={SkipForwardIcon}
+                            alt="skip forward button"
+                        />
                     </button>
                     <button
                         className="btn-icon"
                         onClick={handleRepeatButton}
                     >
-                        <img className="icon" src={RepeatIcon} />
+                        <img className="icon"
+                            src={RepeatIcon}
+                            alt="repeat button"    
+                        />
                     </button>
                 </div>
 

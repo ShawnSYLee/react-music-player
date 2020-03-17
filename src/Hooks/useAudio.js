@@ -1,9 +1,12 @@
 import { useContext, useEffect, useState } from 'react';
-import { playlists as plist } from "../data/Playlist";
-import { MusicContext } from '../MusicContext';
+
+import { MusicContext } from '../Contexts/MusicContext';
+
 import * as firebase from "firebase/app"
 import "firebase/firestore"
 import "firebase/storage"
+
+import { playlists as plist } from "../data/Playlist";
 
 const store = firebase.firestore()
 
@@ -13,8 +16,8 @@ const useAudio = () => {
     const cloudPlaylists = store.collection("playlists");
     const cloudSongs = store.collection("songs");
 
+    // on load, creates listener to populate list of playlists from firestore
     useEffect(() => {
-        console.log("USEEFFECT IN USEAUDIO");
         if (state.playlists === plist) {
             setState(state => ({ ...state, playlists: {} }));
             cloudPlaylists.onSnapshot((e) => e.docChanges().forEach((c) => {
@@ -30,6 +33,7 @@ const useAudio = () => {
         }
     }, []);
 
+    // passes ID of current display playlist
     function passID(newid) {
         console.log("PASS ID ", newid, state.playlists);
         if (newid !== id && state.playlists[newid] !== undefined) {
@@ -38,18 +42,21 @@ const useAudio = () => {
         }
     }
 
-    function setDisplayDefault() {
-        console.log("SETTING DISPLAY DEFAULT");
-        setState(state => ({ ...state, displayinfo: plist["default"], displaylist: plist["default"].tracks }));
-    }
-
+    // sets display playlist to id
     function setDisplayFromId(id) {
         console.log("SETTING DISPLAY FROM ID:", id);
-        setState(state => ({ ...state, displayinfo: state.playlists[id], displaylist: [] }))
+        setState(state => ({
+            ...state,
+            displayinfo: state.playlists[id],
+            displaylist: []
+        }))
         state.playlists[id].tracks.map((track, i) => {
             track.get().then((doc) => {
-                console.log("adding track:", doc.data());
-                setState(state => ({ ...state, displaylist: [...state.displaylist, doc.data()] }));
+                console.log("ADDING TRACK:", doc.data());
+                setState(state => ({
+                    ...state,
+                    displaylist: [...state.displaylist, doc.data()]
+                }));
             });
         });
     }
@@ -68,7 +75,13 @@ const useAudio = () => {
             changeTrack(state.playlist.id, 0);
         } else {
             console.log("stop playing");
-            setState(state => ({ ...state, index: 0, activeSong: state.tracks[0], audioSrc: state.tracks[0].src, play: false }));
+            setState(state => ({
+                ...state,
+                index: 0,
+                activeSong: state.tracks[0],
+                audioSrc: state.tracks[0].src,
+                play: false
+            }));
             state.audio.src = state.tracks[0].src;
             state.audio.currentTime = 0;
         }
@@ -100,44 +113,53 @@ const useAudio = () => {
     function changeTrack(n, i) {
         if (state.playlist.id !== n) {
             console.log('change to playlist ' + n);
-            setState(state => ({ ...state, tracks: state.displaylist, playlist: state.playlists[n] }));
-            setState(state => ({ ...state, index: i, activeSong: state.displaylist[i], audioSrc: state.displaylist[i].src, play: true }));
+            setState(state => ({
+                ...state,
+                tracks: state.displaylist,
+                playlist: state.playlists[n],
+                index: i,
+                activeSong: state.displaylist[i],
+                audioSrc: state.displaylist[i].src,
+                play: true
+            }));
             state.audio.src = state.displaylist[i].src;
             state.audio.currentTime = 0;
             state.audio.play();
         } else {
             console.log('same playlist');
-            setState(state => ({ ...state, index: i, activeSong: state.tracks[i], audioSrc: state.tracks[i].src, play: true }));
+            setState(state => ({
+                ...state,
+                index: i,
+                activeSong: state.tracks[i],
+                audioSrc: state.tracks[i].src,
+                play: true
+            }));
             state.audio.src = state.tracks[i].src;
             state.audio.currentTime = 0;
             state.audio.play();
         }
     }
     
+    // add song s to playlist p in firestore
     function addToPlaylist(p, s) {
         var pref = cloudPlaylists.doc(p);
         console.log("ADDING TO PLAYLIST:", p, s);
-        console.log("SONG REF:", cloudSongs.doc(s));
         pref.update({
             tracks: firebase.firestore.FieldValue.arrayUnion(cloudSongs.doc(s))
         });
     }
 
+    // remove song s from playlist p, both in state and firestore
     function removeFromPlaylist(p, s) {
         var pref = cloudPlaylists.doc(p);
         console.log("REMOVING FROM PLAYLIST:", p, s.id);
-        console.log("SONG REF:", cloudSongs.doc(s.id));
         pref.update({
             tracks: firebase.firestore.FieldValue.arrayRemove(cloudSongs.doc(s.id))
         });
         const templist = state.displaylist;
         var index = state.displaylist.indexOf(s);
         templist.splice(index, 1);
-        console.log("INDEX:", index);
-        setState(state => ({ 
-            ...state, 
-            displaylist: templist
-        }))
+        setState(state => ({ ...state, displaylist: templist }))
     }
 
     // when play is updated, play/pause music accordingly
@@ -150,6 +172,7 @@ const useAudio = () => {
         setState(state => ({ ...state, play: !state.play }));
     }
 
+    // toggle shuffle mode on/off
     function toggleShuffle() {
         if (state.shuffle) {
             console.log('shuffle OFF');
@@ -159,7 +182,8 @@ const useAudio = () => {
             setState(state => ({ ...state, shuffle: true }));
         }
     }
-
+    
+    // cycle repeat from off / repeat / repeat song
     function setRepeat(mode) {
         console.log('repeat: ' + mode);
         setState(state => ({ ...state, repeat: mode }));
@@ -169,7 +193,11 @@ const useAudio = () => {
     function updateProgress() {
         const duration = state.audio.duration;
         const currentTime = state.audio.currentTime;
-        setState(state => ({ ...state, progress: (currentTime / duration) * 100 || 0, starttime: formatTime(currentTime) }));
+        setState(state => ({
+            ...state,
+            progress: (currentTime / duration) * 100 || 0,
+            starttime: formatTime(currentTime)
+        }));
     }
 
     // handle progress slider input
@@ -199,7 +227,6 @@ const useAudio = () => {
         toggleShuffle,
         formatTime,
         setRepeat,
-        setDisplayDefault,
         setDisplayFromId,
         addToPlaylist,
         removeFromPlaylist,

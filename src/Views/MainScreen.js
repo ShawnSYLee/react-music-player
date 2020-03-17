@@ -1,5 +1,7 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { usePalette } from 'react-palette';
+
+import { MusicContext } from '../Contexts/MusicContext';
 
 import Miniplayer from '../Components/Miniplayer';
 import { PlaylistListItem } from '../Components/ListItem';
@@ -7,15 +9,12 @@ import { PlaylistListItem } from '../Components/ListItem';
 import useAudio from "../Hooks/useAudio";
 import { useCloud } from "../Hooks/useCloud";
 
-import '../App.css';
+import '../Styles/App.css';
 
 const MainScreen = () => {
-    const {
-        playlist,
-        playlists,
-        index
-    } = useAudio();
-    const { data } = usePalette(playlist.thumbs[0]);
+    const [state] = useContext(MusicContext);
+    useAudio();
+    const { data } = usePalette(state.playlist.thumbs[0]);
     const [mode, setMode] = useState("playlists");
 
     return (
@@ -51,17 +50,16 @@ const MainScreen = () => {
             <div className="playlist-list"
                 style={{ display: mode === "playlists" ? 'block' : 'none' }}
             >
-                {Object.keys(playlists).map((pl, i) =>
+                {Object.keys(state.playlists).map((pl, i) =>
                     <PlaylistListItem
                         key={pl}
                         i={i}
-                        id={Object.keys(playlists)[i]}
-                        playlist={playlists[pl]}
-                        curplaylist={playlist}
+                        id={Object.keys(state.playlists)[i]}
+                        playlist={state.playlists[pl]}
                         data={data}
                     />
                 )}
-                <div style={{ marginBottom: index < 0 ? '2rem' : '8rem' }} />
+                <div style={{ marginBottom: state.index < 0 ? '2rem' : '8rem' }} />
             </div>
 
             {/* UPLOAD FORM */}

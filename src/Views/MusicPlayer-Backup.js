@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import './App.css';
+import './Styles/App.css';
 import "bootstrap/dist/css/bootstrap.min.css";
 import "shards-ui/dist/css/shards.min.css";
 import {
