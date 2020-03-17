@@ -1,18 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+
+import { MusicContext } from '../Contexts/MusicContext';
 
 import useAudio from "../Hooks/useAudio";
 
 import '../Styles/App.css';
 
 const ProgressSlider = ({ color, accent }) => {
+    const [state] = useContext(MusicContext);
     const {
-        starttime,
-        audio,
-        progress,
         adjustProgress,
         formatTime
     } = useAudio();
-    const [scrubProgress, setScrubProgress] = useState(progress);
+    const [scrubProgress, setScrubProgress] = useState(state.progress);
     const [scrubbing, setScrubbing] = useState(false);
 
     function scrub(e) {
@@ -29,7 +29,7 @@ const ProgressSlider = ({ color, accent }) => {
             <div className="progressslider-container">
                 <div className="progressslider-bar"
                     style={{
-                        width: scrubbing ? scrubProgress + '%' : progress + '%',
+                        width: scrubbing ? scrubProgress + '%' : state.progress + '%',
                         backgroundColor: scrubbing ? accent : 'white',
                         backgroundImage: scrubbing ? 'linear-gradient(to right, ' + color + ', ' + accent + ')' : 'none' 
                     }}
@@ -44,9 +44,9 @@ const ProgressSlider = ({ color, accent }) => {
                     <div className="left-time" 
                         style={{ color: scrubbing ? 'white' : '' }}
                     >
-                        {scrubbing ? formatTime(scrubProgress / 100 * audio.duration) : starttime}
+                        {scrubbing ? formatTime(scrubProgress / 100 * state.audio.duration) : state.starttime}
                     </div>
-                    <div className="right-time">{formatTime(audio.duration)}</div>
+                    <div className="right-time">{formatTime(state.audio.duration)}</div>
                 </div>
             </div>
         </div>

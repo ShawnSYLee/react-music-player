@@ -1,11 +1,16 @@
 import React, { useState, useContext } from 'react';
 import { usePalette } from 'react-palette';
 import { useHistory } from 'react-router-dom';
+
+import { MusicContext } from '../Contexts/MusicContext';
+import { DisplayContext } from '../Contexts/DisplayContext';
 import { ThemeContext } from '../Contexts/ThemeContext';
 
 import ProgressSlider from "../Components/ProgressSlider"
+import { PlaylistPicker } from '../Components/PlaylistPicker';
 
 import useAudio from "../Hooks/useAudio";
+import useDisplay from "../Hooks/useDisplay";
 
 import PlayIcon from '../assets/icons/play.svg';
 import SkipForwardIcon from '../assets/icons/skipforward.svg';
@@ -21,27 +26,26 @@ import '../Styles/App.css';
 import '../Styles/MusicPlayer.css';
 
 const MusicPlayer = () => {
+    const [state] = useContext(MusicContext);
+    const [display] = useContext(DisplayContext);
+    const [theme] = useContext(ThemeContext);
     const {
         nextSong,
         prevSong,
         togglePlay,
-        progress,
-        activeSong,
         toggleShuffle,
         setRepeat,
         play,
         shuffle,
-        repeat,
-        addToPlaylist
+        repeat
     } = useAudio();
-    const [theme, setTheme] = useContext(ThemeContext);
-    const { data } = usePalette(activeSong.thumbs[0]);
-    const [open, setOpen] = useState(false);
+    const {
+        openModal,
+        closeModal,
+        openPlaylistPicker
+    } = useDisplay();
+    const { data } = usePalette(state.activeSong.thumbs[0]);
     let history = useHistory();
-
-    function toggle() {
-        setOpen(!open);
-    }
 
     function handleRepeatButton() {
         switch (repeat) {
@@ -66,19 +70,18 @@ const MusicPlayer = () => {
 
     return (
         <>
+            <PlaylistPicker />
+
             {/* DROPDOWN MODAL */}
             <div className="droptest"
                 style={{
-                    display: open ? 'block' : 'none',
-                    animationDirection: open ? 'normal' : 'reverse'
+                    display: display.inModal ? 'block' : 'none',
+                    animationDirection: display.inModal ? 'normal' : 'reverse'
                 }}
             >
                 <div className="drop-button-container">
                     <button className="drop-button"
-                        onClick={() => {
-                            addToPlaylist("VOzWtitC47ReMccAjoh0", activeSong.id);
-                            toggle();
-                        }}
+                        onClick={openPlaylistPicker}
                     >
                         Add to Playlist
           </button>
@@ -90,8 +93,8 @@ const MusicPlayer = () => {
 
             {/* MODAL TOUCH BLOCKER */}
             <div className="TouchBlocker"
-                style={{ display: open ? 'block' : 'none' }}
-                onClick={toggle}
+                style={{ display: display.inModal ? 'block' : 'none' }}
+                onClick={closeModal}
             />
 
             {/* HEADER NAVIGATION */}
@@ -106,12 +109,12 @@ const MusicPlayer = () => {
                 </button>
                 <span className="txt-label">Player</span>
                 <button className="btn-righticon"
-                    onClick={toggle}
+                    onClick={openModal}
                 >
                     <img className="icon"
                         src={PlusIcon}
                         alt="plus button"
-                        style={{ transform: open ? 'rotate(135deg)' : 'none' }}
+                        style={{ transform: display.inModal ? 'rotate(135deg)' : 'none' }}
                     />
                 </button>
             </div>
@@ -119,7 +122,7 @@ const MusicPlayer = () => {
             {/* ALBUM ART */}
             <div className="AlbumContainer">
                 <img className="img-coverart"
-                    src={activeSong.thumbs[1]}
+                    src={state.activeSong.thumbs[1]}
                     alt="cover art"
                 />
             </div>
@@ -130,8 +133,8 @@ const MusicPlayer = () => {
                     backgroundImage: theme.theme === 'light' ? 'radial-gradient(at 50% bottom ,' + data.lightMuted + ', rgba(255, 255, 255, 0), rgba(255, 255, 255, 0))' : 'linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1))'
                 }}
             >
-                <div className="txt-subtitle">{activeSong.artist.join(', ')}</div>
-                <div className="txt-title">{activeSong.title}</div>
+                <div className="txt-subtitle">{state.activeSong.artist.join(', ')}</div>
+                <div className="txt-title">{state.activeSong.title}</div>
                 
                 <div className="control-row">
                     <button
@@ -157,11 +160,11 @@ const MusicPlayer = () => {
                         style={{ backgroundColor: data.lightVibrant }}
                         onClick={togglePlay}
                     >
-                        {play === false && <img className="playicon" 
+                        {state.play === false && <img className="playicon" 
                             src={PlayIcon}
                             alt="play button"
                         />}
-                        {play === true && <img className="largeicon"
+                        {state.play === true && <img className="largeicon"
                             src={PauseIcon}
                             alt="pause button"
                         />}
@@ -187,7 +190,6 @@ const MusicPlayer = () => {
                 </div>
 
                 <ProgressSlider
-                    value={progress}
                     color={data.muted}
                     accent={data.lightVibrant}
                 />

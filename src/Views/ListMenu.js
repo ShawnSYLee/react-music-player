@@ -55,9 +55,7 @@ const ListMenu = () => {
                 </div>
                 <div className="drop-bannerbutton-container">
                     <button className="drop-button"
-                        onClick={() => {
-                            openPlaylistPicker();
-                        }}
+                        onClick={openPlaylistPicker}
                     >
                         Add to Playlist
                     </button>

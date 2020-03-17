@@ -37,12 +37,12 @@ const Miniplayer = () => {
                             backgroundSize: 'contain' 
                         }}
                     >
-                        {play === false && <img className="playicon"
+                        {state.play === false && <img className="playicon"
                             src={PlayIcon}
                             alt="play button"
                             style={{opacity: '0.3'}}
                         />}
-                        {play === true && <img className="largeicon"
+                        {state.play === true && <img className="largeicon"
                             src={PauseIcon}
                             alt="pause button"
                             style={{opacity: '0.3'}}

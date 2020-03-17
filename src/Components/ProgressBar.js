@@ -1,17 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
-import useAudio from "../Hooks/useAudio";
+import { MusicContext } from '../Contexts/MusicContext';
 
 import '../Styles/App.css';
 
 const ProgressBar = ({ color }) => {
-    const { progress } = useAudio();
+    const [state] = useContext(MusicContext);
 
     return (
         <div className="progressbar-container">
             <div className="progressbar-bar" 
                 style={{
-                    width: progress + '%',
+                    width: state.progress + '%',
                     backgroundColor: color }}
             />
         </div>
