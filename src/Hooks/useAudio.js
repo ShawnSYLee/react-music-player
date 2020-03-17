@@ -8,7 +8,8 @@ import "firebase/storage"
 
 import { playlists as plist } from "../data/Playlist";
 
-const store = firebase.firestore()
+const store = firebase.firestore();
+const storageref = firebase.storage().ref();
 
 const useAudio = () => {
     const [id, setId] = useState("default");
@@ -139,7 +140,20 @@ const useAudio = () => {
             state.audio.play();
         }
     }
-    
+
+    // create new playlist
+    function createPlaylist(name) {
+        const index = Object.keys(state.playlists).length;
+        cloudPlaylists.add({
+            author: "Shawn Lee",
+            name: name,
+            index: index,
+            tracks: []
+        }).then(function(docRef) {
+            console.log("NEW PLAYLIST ID: ", docRef.id);
+        })
+    }
+
     // add song s to playlist p in firestore
     function addToPlaylist(p, s) {
         var pref = cloudPlaylists.doc(p);
@@ -230,20 +244,7 @@ const useAudio = () => {
         setDisplayFromId,
         addToPlaylist,
         removeFromPlaylist,
-        progress: state.progress,
-        activeSong: state.activeSong,
-        starttime: state.starttime,
-        play: state.play,
-        audio: state.audio,
-        playlist: state.playlist,
-        tracks: state.tracks,
-        index: state.index,
-        shuffle: state.shuffle,
-        repeat: state.repeat,
-        playlists: state.playlists,
-        displaylist: state.displaylist,
-        displayinfo: state.displayinfo,
-        playlistplaceholder: state.playlistplaceholder
+        createPlaylist
     }
 };
 

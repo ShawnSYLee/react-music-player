@@ -8,8 +8,9 @@ import useAudio from '../Hooks/useAudio';
 import useDisplay from '../Hooks/useDisplay';
 
 import DotsIcon from '../assets/icons/dots.svg';
+import AddPlaylistIcon from '../assets/icons/PlusSquareBtn.jpg';
 
-export const PlaylistListItem = ({ id, playlist, data }) => {
+const PlaylistListItem = ({ id, playlist, data }) => {
     const [state] = useContext(MusicContext);
     const [display] = useContext(DisplayContext)
     let history = useHistory();
@@ -17,11 +18,8 @@ export const PlaylistListItem = ({ id, playlist, data }) => {
         addToPlaylist
     } = useAudio();
     const {
-        openModal,
         closeModal,
-        openPlaylistPicker,
-        closePlaylistPicker,
-        setDisplaySong
+        closePlaylistPicker
     } = useDisplay();
     
     return (
@@ -33,14 +31,14 @@ export const PlaylistListItem = ({ id, playlist, data }) => {
                         closePlaylistPicker();
                         closeModal();
                     } else {
-                        history.push('/' + id);
+                        history.push('/playlist=' + id);
                     }
                 }}
                 className="playlistlist-container"
                 style={(data) && playlist.name === state.playlist.name ? { color: data.vibrant } : {}}
             >
                 <img className="img-playlistlistcover" 
-                    src={playlist.thumbs[0]} 
+                    src={playlist.thumbs !== undefined ? playlist.thumbs[0] : state.pthumb} 
                     alt="playlist cover art" 
                 />
                 <div className="playlistlist-textcontainer" >
@@ -52,11 +50,35 @@ export const PlaylistListItem = ({ id, playlist, data }) => {
     );
 }
 
-export const SongListItem = ({
+const AddPlaylistListItem = () => {
+    const [state] = useContext(MusicContext);
+    const {
+        createPlaylist
+    } = useAudio();
+
+    return (
+        <div>
+            <button
+                onClick={() => {createPlaylist("test")}}
+                className="playlistlist-container"
+            >
+                <img className="img-playlistlistcover" 
+                    src={AddPlaylistIcon}
+                    alt="add playlist icon" 
+                />
+                <div className="playlistlist-textcontainer" >
+                    <div className="txt-tracktitle">Create Playlist</div>
+                </div>
+            </button>
+        </div>
+    );
+}
+
+const SongListItem = ({
     i,
     track,
     data,
-    pathname,
+    playlistid,
 }) => {
     const [state] = useContext(MusicContext);
     const {
@@ -72,7 +94,7 @@ export const SongListItem = ({
         <div className="track-container">
             <button className="track-button"
                 onClick={() => {
-                    changeTrack(pathname.substring(1), i);
+                    changeTrack(playlistid, i);
                 }}
             >
                 <img className="track-img"
@@ -101,3 +123,5 @@ export const SongListItem = ({
         </div>
     );
 }
+
+export { PlaylistListItem, AddPlaylistListItem, SongListItem };

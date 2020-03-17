@@ -44,7 +44,8 @@ const MusicProvider = (props) => {
         displayinfo: plist["default"],
         displaylist: plist["default"].tracks,
         shuffle: false,
-        repeat: 'none'
+        repeat: 'none',
+        pthumb: '../assets/images/Placeholder.jpg'
     });
 
     return (

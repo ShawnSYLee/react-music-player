@@ -4,7 +4,7 @@ import { usePalette } from 'react-palette';
 import { MusicContext } from '../Contexts/MusicContext';
 
 import Miniplayer from '../Components/Miniplayer';
-import { PlaylistListItem } from '../Components/ListItem';
+import { PlaylistListItem, AddPlaylistListItem } from '../Components/ListItem';
 
 import useAudio from "../Hooks/useAudio";
 import { useCloud } from "../Hooks/useCloud";
@@ -50,6 +50,7 @@ const MainScreen = () => {
             <div className="playlist-list"
                 style={{ display: mode === "playlists" ? 'block' : 'none' }}
             >
+                <AddPlaylistListItem />
                 {Object.keys(state.playlists).map((pl, i) =>
                     <PlaylistListItem
                         key={pl}

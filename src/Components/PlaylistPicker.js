@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { MusicContext } from '../Contexts/MusicContext';
 import { DisplayContext } from '../Contexts/DisplayContext';
 
-import { PlaylistListItem } from './ListItem';
+import { PlaylistListItem, AddPlaylistListItem } from './ListItem';
 
 import useDisplay from '../Hooks/useDisplay';
 
@@ -29,6 +29,7 @@ export const PlaylistPicker = () => {
                 <span className="txt-label">Add to Playlist</span>
             </div>
             <div className="playlist-picker" >
+                <AddPlaylistListItem />
                 {Object.keys(state.playlists).map((pl, i) =>
                     <PlaylistListItem
                         key={pl}

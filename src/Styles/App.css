@@ -519,18 +519,18 @@ button:focus {
 /* Playlist Styles */
 
 .playlistlist-container {
-  padding: 20px 40px 15px;
+  padding: 20px 40px 0px;
   width: 100%;
   background-color: rgba(0,0,0,0);
   border: none;
   display: flex;
   flex-direction: row;
-  align-items: flex-end;
+  align-items: center;
 }
 
 .img-playlistlistcover {
-  height: 10vh;
-  width: 10vh;
+  height: 8vh;
+  width: 8vh;
   box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
 }
 

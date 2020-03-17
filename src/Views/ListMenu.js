@@ -7,7 +7,7 @@ import { MusicContext } from '../Contexts/MusicContext';
 import { DisplayContext } from '../Contexts/DisplayContext';
 
 import Miniplayer from '../Components/Miniplayer';
-import { PlaylistListItem, SongListItem } from '../Components/ListItem';
+import { SongListItem } from '../Components/ListItem';
 import { PlaylistPicker } from '../Components/PlaylistPicker';
 
 import useAudio from "../Hooks/useAudio";
@@ -22,34 +22,19 @@ const ListMenu = () => {
     const [display] = useContext(DisplayContext);
     const {
         passID,
-        changeTrack,
-        addToPlaylist,
         removeFromPlaylist,
     } = useAudio();
     const {
-        openModal,
         closeModal,
-        openPlaylistPicker,
-        closePlaylistPicker,
-        setDisplaySong
+        openPlaylistPicker
     } = useDisplay();
 
     const { data } = usePalette(state.activeSong.thumbs[0]);
-
-    // const [open, setOpen] = useState(false);
-    // const [playlistpickeropen, setPlaylistpickeropen] = useState(false);
-
-    // const [displaySong, setDisplaySong] = useState(state.tracks[0]);
     const { pathname } = useLocation();
 
     useEffect(() => {
-        passID(pathname.substring(1));
+        passID(pathname.substring(10));
     }, [state.playlists]);
-
-    // function toggle(e) {
-    //     setDisplaySong(e);
-    //     setOpen(!open);
-    // }
 
     return (
         <>
@@ -113,7 +98,10 @@ const ListMenu = () => {
             {/* PLAYLIST INFO BOX */}
             <div className="playlisttop-wrapper">
                 <div className="playlistinfo-container">
-                    <img src={state.displayinfo.thumbs[1]} alt="Playlist Cover" className="playlist-cover" />
+                    <img className="playlist-cover"
+                        src={state.displayinfo.thumbs !== undefined ? state.displayinfo.thumbs[1] : state.pthumb}
+                        alt="Playlist Cover" 
+                    />
                     <div className="playlist-info" >
                         <div className="txt-playlistinfo">By {state.displayinfo.author}</div>
                         <div className="txt-playlisttitle">{state.displayinfo.name}</div>
@@ -127,13 +115,14 @@ const ListMenu = () => {
 
             {/* PLAYLIST TRACK LIST */}
             <div className="track-list">
+
                 {state.displaylist.map((track, i) =>
                     <SongListItem
                         key={track.id}
                         i={i}
                         track={track}
                         data={data}
-                        pathname={pathname}
+                        playlistid={pathname.substring(10)}
                     />
                 )}
                 <div style={{ marginBottom: state.index < 0 ? '2rem' : '8rem' }} />

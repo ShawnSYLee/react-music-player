@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import { usePalette } from 'react-palette';
+
+import { MusicContext } from '../Contexts/MusicContext';
 
 import ProgressBar from '../Components/ProgressBar';
 
@@ -13,18 +15,17 @@ import PlayIcon from '../assets/icons/play.svg';
 import '../Styles/App.css';
 
 const Miniplayer = () => {
+    const [state] = useContext(MusicContext);
     const {
         togglePlay,
-        activeSong,
-        play,
-        index
+        play
     } = useAudio();
-    const { data } = usePalette(activeSong.thumbs[0])
+    const { data } = usePalette(state.activeSong.thumbs[0])
     let history = useHistory();
 
     return (
         <div className="miniplayer-container"
-            style={{ display: index < 0 ? 'none' : 'block' }}
+            style={{ display: state.index < 0 ? 'none' : 'block' }}
         >
             <div className="miniplayer">
                 <div className="art-container">
@@ -32,7 +33,7 @@ const Miniplayer = () => {
                         className="miniplaybutton"
                         onClick={togglePlay}
                         style={{
-                            backgroundImage: 'url(\'' + activeSong.thumbs[0] + '\')',
+                            backgroundImage: 'url(\'' + state.activeSong.thumbs[0] + '\')',
                             backgroundSize: 'contain' 
                         }}
                     >
@@ -53,8 +54,8 @@ const Miniplayer = () => {
                 >
                     <div className="container-row">
                         <div className="container-stack">
-                            <div className="txt-minisubtitle">{activeSong.artist.join(', ')}</div>
-                            <div className="txt-minititle">{activeSong.title}</div>
+                            <div className="txt-minisubtitle">{state.activeSong.artist.join(', ')}</div>
+                            <div className="txt-minititle">{state.activeSong.title}</div>
                         </div>
                         <button className="btn-miniplayericon"
                             onClick={() => history.push('/player')}
