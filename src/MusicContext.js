@@ -36,6 +36,7 @@ const MusicProvider = (props) => {
             id: 'placeholder',
             src: '',
             cover: '',
+            thumbs: [],
             title: 'Title',
             artist: ['Artist'],
             album: 'Album'

@@ -11,6 +11,7 @@ const useAudio = () => {
     const [id, setId] = useState("default");
     const [state, setState] = useContext(MusicContext);
     const cloudPlaylists = store.collection("playlists");
+    const cloudSongs = store.collection("songs");
 
     useEffect(() => {
         console.log("USEEFFECT IN USEAUDIO");
@@ -19,13 +20,12 @@ const useAudio = () => {
             cloudPlaylists.onSnapshot((e) => e.docChanges().forEach((c) => {
                 const { doc } = c
                 const id = doc.id;
-                // setLikedsongs(doc.data());
                 setState((state) => {
                     const temp = state.playlists;
                     const pl = { ...temp, [id]: doc.data() };
                     return ({ ...state, playlists: pl });
                 });
-                // console.log("FETCHED DATA: ", doc.data());
+                console.log("FETCHED DATA: ", doc.data());
             }));
         }
     }, []);
@@ -47,7 +47,7 @@ const useAudio = () => {
         console.log("SETTING DISPLAY FROM ID:", id);
         setState(state => ({ ...state, displayinfo: state.playlists[id], displaylist: [] }))
         state.playlists[id].tracks.map((track, i) => {
-            track.onSnapshot((doc) => {
+            track.get().then((doc) => {
                 console.log("adding track:", doc.data());
                 setState(state => ({ ...state, displaylist: [...state.displaylist, doc.data()] }));
             });
@@ -113,6 +113,32 @@ const useAudio = () => {
             state.audio.play();
         }
     }
+    
+    function addToPlaylist(p, s) {
+        var pref = cloudPlaylists.doc(p);
+        console.log("ADDING TO PLAYLIST:", p, s);
+        console.log("SONG REF:", cloudSongs.doc(s));
+        pref.update({
+            tracks: firebase.firestore.FieldValue.arrayUnion(cloudSongs.doc(s))
+        });
+    }
+
+    function removeFromPlaylist(p, s) {
+        var pref = cloudPlaylists.doc(p);
+        console.log("REMOVING FROM PLAYLIST:", p, s.id);
+        console.log("SONG REF:", cloudSongs.doc(s.id));
+        pref.update({
+            tracks: firebase.firestore.FieldValue.arrayRemove(cloudSongs.doc(s.id))
+        });
+        const templist = state.displaylist;
+        var index = state.displaylist.indexOf(s);
+        templist.splice(index, 1);
+        console.log("INDEX:", index);
+        setState(state => ({ 
+            ...state, 
+            displaylist: templist
+        }))
+    }
 
     // when play is updated, play/pause music accordingly
     useEffect(() => {
@@ -175,6 +201,8 @@ const useAudio = () => {
         setRepeat,
         setDisplayDefault,
         setDisplayFromId,
+        addToPlaylist,
+        removeFromPlaylist,
         progress: state.progress,
         activeSong: state.activeSong,
         starttime: state.starttime,

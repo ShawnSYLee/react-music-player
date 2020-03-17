@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 352 352" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g transform="matrix(1,0,0,1,-2677.64,-1620.01)">
+        <g id="Icon-Export" serif:id="Icon Export" transform="matrix(0.469113,0,0,0.495442,1910.11,904.177)">
+            <rect x="1636.14" y="1444.84" width="750" height="710.073" style="fill:none;"/>
+            <g transform="matrix(12.7327,0,0,12.056,-4756.98,-5324.76)">
+                <g transform="matrix(0.42372,0,0,0.42372,-1416.61,328.89)">
+                    <circle cx="4648.03" cy="579.066" r="8.355" style="fill:rgb(224,224,224);"/>
+                </g>
+                <g transform="matrix(0.42372,0,0,0.42372,-1416.61,345.599)">
+                    <circle cx="4648.03" cy="579.066" r="8.355" style="fill:rgb(224,224,224);"/>
+                </g>
+                <g transform="matrix(0.42372,0,0,0.42372,-1416.61,362.309)">
+                    <circle cx="4648.03" cy="579.066" r="8.355" style="fill:rgb(224,224,224);"/>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -8,6 +8,13 @@ button:focus {
   font-family: Futura PT;
 }
 
+.TouchBlocker {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.1);
+  height: 100%;
+  width: 100%;
+  z-index: 1999;
+}
 
 /* Text Styles */
 
@@ -117,6 +124,11 @@ button:focus {
   to {height: 200px;}
 }
 
+@keyframes dropdown-large {
+  from {height: 0px;}
+  to {height: 450px;}
+}
+
 .droptest {
   animation-name: dropdown;
   animation-duration: 0.5s;
@@ -137,11 +149,48 @@ button:focus {
   overflow: hidden;
 }
 
+.droptest-banner {
+  animation-name: dropdown-large;
+  animation-duration: 0.5s;
+  position: absolute;
+  bottom: 0px;
+  z-index: 2000;
+  height: 450px;
+  width: 100%;
+  /* padding: 40px; */
+  border-radius: 25px 25px 0px 0px;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+  backdrop-filter: blur(15px);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 45px 20px 15px 20px;
+  overflow: hidden;
+}
+
 .drop-button-container {
   display: flex;
   flex-direction: column;
   border-top: 1px solid rgb(65, 65, 65);
   padding: 5px 0px 0px 0px;
+}
+
+.drop-bannerbutton-container {
+  margin-top: auto;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid rgb(65, 65, 65);
+  padding: 5px 0px 0px 0px;
+}
+
+.drop-songinfo {
+  
+}
+
+.drop-songimage {
+  width: 20vh;
+  height: 20vh;
 }
 
 .drop-button {
@@ -304,8 +353,39 @@ button:focus {
 .track-container {
   padding: 10px 40px;
   width: 100%;
-  background-color: rgba(0,0,0,0);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.track-button {
+  background: none;
   border: none;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.track-img {
+  height: 7vh;
+  width: 7vh;
+  box-shadow: 0 10px 50px 0 rgba(0, 0, 0, 0.1), 0 6px 20px 0 rgba(0, 0, 0, 0.1);
+}
+
+.track-dots {
+  margin-left: auto;
+  height: 4vh;
+  width: 4vh;
+  z-index: 100;
+}
+
+.track-textwrapper {
+  height: 7vh;
+  padding: 0px 15px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .curtrack-container {

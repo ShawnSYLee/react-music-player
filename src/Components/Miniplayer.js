@@ -18,7 +18,7 @@ const Miniplayer = () => {
         playlist,
         index
     } = useAudio();
-    const { data } = usePalette(playlist.cover)
+    const { data } = usePalette(activeSong.thumbs[0])
     let history = useHistory();
 
     return (
@@ -28,7 +28,7 @@ const Miniplayer = () => {
                     <button
                         className="miniplaybutton"
                         onClick={togglePlay}
-                        style={{ backgroundImage: 'url(\'' + activeSong.cover + '\')', backgroundSize: 'contain' }}
+                        style={{ backgroundImage: 'url(\'' + activeSong.thumbs[0] + '\')', backgroundSize: 'contain' }}
                     >
                         {play === false && <img src={PlayIcon} style={{opacity: '0.3'}} className="playicon" />}
                         {play === true && <img src={PauseIcon} style={{opacity: '0.3'}} className="largeicon" />}
